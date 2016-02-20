@@ -20,7 +20,7 @@ public enum FragenKategorie {
     GS26("GS26"),
     GS31("GS31"),
     GS32("GS32"),
-    GS33_35("G33-35"),
+    GS33_35("GS33-35"),
     GS40("GS40"),
     GS43("GS43"),
     GS44("GS44"),
