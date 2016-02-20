@@ -66,12 +66,10 @@ public class FragenKatalogExcelLoader {
 
                 AntwortSlot richtigeAntwortSlot = determineAntwortSlot(richtigeAntwortText);
 
-
                 Antwort antwortA = buildAntwort(getCell(row, 1), AntwortSlot.A, richtigeAntwortSlot, richtigeAntwortText);
                 Antwort antwortB = buildAntwort(getCell(row, 2), AntwortSlot.B, richtigeAntwortSlot, richtigeAntwortText);
                 Antwort antwortC = buildAntwort(getCell(row, 3), AntwortSlot.C, richtigeAntwortSlot, richtigeAntwortText);
                 Antwort antwortD = buildAntwort(getCell(row, 4), AntwortSlot.D, richtigeAntwortSlot, richtigeAntwortText);
-
 
                 frage.addAntwort(antwortA);
                 frage.addAntwort(antwortB);
@@ -98,7 +96,7 @@ public class FragenKatalogExcelLoader {
                 return sheet;
             }
         }
-        return null;
+        throw new FragenKatalogLoaderException("Es gibt kein Sheet zur Kategorie '" + fragenKategorie + "'");
     }
 
 
