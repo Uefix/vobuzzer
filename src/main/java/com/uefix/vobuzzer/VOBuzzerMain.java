@@ -2,8 +2,18 @@ package com.uefix.vobuzzer;
 
 import com.uefix.vobuzzer.excel.FragenKatalogExcelLoader;
 import com.uefix.vobuzzer.exception.FragenKatalogLoaderException;
+import com.uefix.vobuzzer.gui.javafx.VOBuzzerApplication;
 import com.uefix.vobuzzer.model.FragenKatalog;
 import com.uefix.vobuzzer.model.FragenKategorie;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
@@ -16,13 +26,15 @@ public class VOBuzzerMain {
 
     public static final Logger LOG = Logger.getLogger(VOBuzzerMain.class);
 
+    private static VOBuzzerMain buzzerMain = new VOBuzzerMain();
+
+
     public static void main(String[] args) {
-        VOBuzzerMain buzzerMain = new VOBuzzerMain();
 
         if (args.length > 1 && args[0].equals("-checkexcel")) {
             buzzerMain.checkExcel(args[1]);
         } else if (args.length == 1) {
-            buzzerMain.initialize(args[0]);
+            buzzerMain.initialize(args);
         } else {
             LOG.error("Unerwartete Anzahl an Parametern.");
         }
@@ -31,9 +43,15 @@ public class VOBuzzerMain {
 
     private FragenKatalogExcelLoader excelLoader = new FragenKatalogExcelLoader();
 
-    private void initialize(String pfadZuExcel) {
-        FragenKatalog katalog = loadFragenKatalog(pfadZuExcel);
+    private FragenKatalog fragenKatalog;
 
+    private VOBuzzerApplication application = new VOBuzzerApplication();
+
+
+    private void initialize(String[] args) {
+        String pfadZuExcel = args[0];
+        fragenKatalog = loadFragenKatalog(pfadZuExcel);
+        application.launchApplication(args);
     }
 
     private FragenKatalog loadFragenKatalog(String pfadZuExcel) {
