@@ -5,20 +5,20 @@ package com.uefix.vobuzzer.model;
  */
 public class FrageId {
 
-    private int idx = -1;
+    private int index = -1;
     private FragenKategorie kategorie = null;
 
-    public FrageId(int idx, FragenKategorie kategorie) {
-        this.idx = idx;
+    public FrageId(int index, FragenKategorie kategorie) {
+        this.index = index;
         this.kategorie = kategorie;
     }
 
-    public int getIdx() {
-        return idx;
+    public int getIndex() {
+        return index;
     }
 
-    public void setIdx(int idx) {
-        this.idx = idx;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public FragenKategorie getKategorie() {
@@ -36,14 +36,14 @@ public class FrageId {
 
         FrageId frageId = (FrageId) o;
 
-        if (idx != frageId.idx) return false;
+        if (index != frageId.index) return false;
         return kategorie == frageId.kategorie;
 
     }
 
     @Override
     public int hashCode() {
-        int result = idx;
+        int result = index;
         result = 31 * result + (kategorie != null ? kategorie.hashCode() : 0);
         return result;
     }
@@ -52,7 +52,7 @@ public class FrageId {
     @Override
     public String toString() {
         return "FrageId{" +
-                "idx=" + idx +
+                "index=" + index +
                 ", kategorie=" + kategorie +
                 '}';
     }

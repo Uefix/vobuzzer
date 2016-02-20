@@ -7,6 +7,7 @@ public class Antwort {
 
     private String text;
     private boolean richtig;
+    private AntwortSlot slot;
 
     public String getText() {
         return text;
@@ -24,6 +25,13 @@ public class Antwort {
         this.richtig = richtig;
     }
 
+    public AntwortSlot getSlot() {
+        return slot;
+    }
+
+    public void setSlot(AntwortSlot slot) {
+        this.slot = slot;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -33,7 +41,8 @@ public class Antwort {
         Antwort antwort = (Antwort) o;
 
         if (richtig != antwort.richtig) return false;
-        return !(text != null ? !text.equals(antwort.text) : antwort.text != null);
+        if (text != null ? !text.equals(antwort.text) : antwort.text != null) return false;
+        return slot == antwort.slot;
 
     }
 
@@ -41,15 +50,16 @@ public class Antwort {
     public int hashCode() {
         int result = text != null ? text.hashCode() : 0;
         result = 31 * result + (richtig ? 1 : 0);
+        result = 31 * result + (slot != null ? slot.hashCode() : 0);
         return result;
     }
-
 
     @Override
     public String toString() {
         return "Antwort{" +
                 "text='" + text + '\'' +
                 ", richtig=" + richtig +
+                ", slot=" + slot +
                 '}';
     }
 }

@@ -34,9 +34,13 @@ public enum FragenKategorie {
 
 
 
-    private final String kategorieId;
+    private final String sheetName;
 
-    private FragenKategorie(String kategorieId) {
-        this.kategorieId = kategorieId;
+    private FragenKategorie(String sheetName) {
+        this.sheetName = sheetName;
+    }
+
+    public String getSheetName() {
+        return sheetName;
     }
 }
