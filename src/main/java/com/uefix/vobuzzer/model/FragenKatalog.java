@@ -15,12 +15,17 @@ public class FragenKatalog {
         return fragen;
     }
 
+    public void addFrage(Frage frage) {
+        fragen.put(frage.getId(), frage);
+    }
+
+
     public void setFragen(Map<FrageId, Frage> fragen) {
         this.fragen = fragen;
     }
 
 
     public Frage getFrage(FrageId frageId) {
-        return null;
+        return fragen.get(frageId);
     }
 }
