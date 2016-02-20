@@ -1,5 +1,6 @@
 package com.uefix.vobuzzer.excel;
 
+import com.uefix.vobuzzer.exception.FragenKatalogLoaderException;
 import com.uefix.vobuzzer.model.Frage;
 import com.uefix.vobuzzer.model.FrageId;
 import com.uefix.vobuzzer.model.FragenKatalog;
@@ -54,8 +55,8 @@ public class FragenKatalogExcelLoaderTest {
 
 
     @Test
-    public void loadFragen_jugend_wirftErwarteteIllegalStateException() throws Exception {
-        expectedException.expect(IllegalStateException.class);
+    public void loadFragen_jugend_wirftErwarteteException() throws Exception {
+        expectedException.expect(FragenKatalogLoaderException.class);
         expectedException.expectMessage("Unerwarteter Header in Sheet 'Jugend' (erste Zelle ist nicht 'Frage')");
 
         loader.loadFragen(testInputStream, FragenKategorie.JUGEND);

@@ -1,5 +1,6 @@
 package com.uefix.vobuzzer.excel;
 
+import com.uefix.vobuzzer.exception.FragenKatalogLoaderException;
 import com.uefix.vobuzzer.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -40,14 +41,14 @@ public class FragenKatalogExcelLoader {
 
                 Row row = rowIterator.next();
 
-                LOG.debug("Processing row#" + row.getRowNum() + "...");
+                // LOG.debug("Processing row#" + row.getRowNum() + "...");
 
-                Cell frageCell = row.getCell(0);
+                Cell frageCell = getCell(row, 0);
 
                 String frageText = frageCell.getStringCellValue();
                 if (row.getRowNum() == 0) {
                     if (!frageText.equals("Frage")) {
-                        throw new IllegalStateException("Unerwarteter Header in Sheet '" + sheet.getSheetName() + "' (erste Zelle ist nicht 'Frage')");
+                        throw new FragenKatalogLoaderException("Unerwarteter Header in Sheet '" + sheet.getSheetName() + "' (erste Zelle ist nicht 'Frage')");
                     } else {
                         continue;
                     }
@@ -57,14 +58,19 @@ public class FragenKatalogExcelLoader {
                 frage.setId(new FrageId(row.getRowNum(), kategorie));
                 frage.setText(frageText);
 
-                Cell richtigeAntwortCell = row.getCell(5);
-                AntwortSlot richtigeAntwortSlot = determineAntwortSlot(richtigeAntwortCell);
+                Cell richtigeAntwortCell = getCell(row, 5);
                 String richtigeAntwortText = getStringCellValue(richtigeAntwortCell);
+                if (StringUtils.isBlank(richtigeAntwortText)) {
+                    throw new FragenKatalogLoaderException("Es gibt keinen Wert fuer die richtige Antwort in Zeile#" + row.getRowNum() + " in Sheet '" + sheet.getSheetName() + "'; Frage: '" + frage.getText() + "'");
+                }
 
-                Antwort antwortA = buildAntwort(row.getCell(1), AntwortSlot.A, richtigeAntwortSlot, richtigeAntwortText);
-                Antwort antwortB = buildAntwort(row.getCell(2), AntwortSlot.B, richtigeAntwortSlot, richtigeAntwortText);
-                Antwort antwortC = buildAntwort(row.getCell(3), AntwortSlot.C, richtigeAntwortSlot, richtigeAntwortText);
-                Antwort antwortD = buildAntwort(row.getCell(4), AntwortSlot.D, richtigeAntwortSlot, richtigeAntwortText);
+                AntwortSlot richtigeAntwortSlot = determineAntwortSlot(richtigeAntwortText);
+
+
+                Antwort antwortA = buildAntwort(getCell(row, 1), AntwortSlot.A, richtigeAntwortSlot, richtigeAntwortText);
+                Antwort antwortB = buildAntwort(getCell(row, 2), AntwortSlot.B, richtigeAntwortSlot, richtigeAntwortText);
+                Antwort antwortC = buildAntwort(getCell(row, 3), AntwortSlot.C, richtigeAntwortSlot, richtigeAntwortText);
+                Antwort antwortD = buildAntwort(getCell(row, 4), AntwortSlot.D, richtigeAntwortSlot, richtigeAntwortText);
 
 
                 frage.addAntwort(antwortA);
@@ -73,7 +79,7 @@ public class FragenKatalogExcelLoader {
                 frage.addAntwort(antwortD);
 
                 if (frage.getRichtigeAntwort() == null) {
-                    throw new IllegalStateException("Es gibt für diese Frage keine richtige Antwort im Katalog: frage='" + frageText + "', frageId=" + frage.getId());
+                    throw new FragenKatalogLoaderException("Es gibt keine richtige Antwort fuer Zeile#" + row.getRowNum() + " in Sheet '" + sheet.getSheetName() + "'; Frage: '" + frage.getText() + "'");
                 }
 
                 katalog.addFrage(frage);
@@ -100,7 +106,7 @@ public class FragenKatalogExcelLoader {
 
         String antwortText = getStringCellValue(cell);
         if (StringUtils.isBlank(antwortText)) {
-            throw new IllegalStateException("Die Zelle in Zeile " + cell.getRowIndex() + " und Spalte " + cell.getColumnIndex() + " hat keinen Wert");
+            throw new FragenKatalogLoaderException("Die Zelle in Zeile#" + cell.getRowIndex() + " und Spalte#" + cell.getColumnIndex() + " hat keinen Wert");
         }
 
 
@@ -120,15 +126,18 @@ public class FragenKatalogExcelLoader {
     }
 
     private String getStringCellValue(Cell cell) {
+        final String value;
         if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
-            return cell.getStringCellValue();
+            value = cell.getStringCellValue();
+        } else {
+            value = formatter.formatCellValue(cell);
         }
-        return formatter.formatCellValue(cell);
+        return value != null ? value.trim() : null;
     }
 
 
-    private AntwortSlot determineAntwortSlot(Cell antwortCell) {
-        char antwortSpalte = getStringCellValue(antwortCell).trim().charAt(0);
+    private AntwortSlot determineAntwortSlot(String antwortText) {
+        char antwortSpalte = antwortText.charAt(0);
         switch (antwortSpalte) {
             case 'B':
                 return AntwortSlot.A;
@@ -140,5 +149,14 @@ public class FragenKatalogExcelLoader {
                 return AntwortSlot.D;
         }
         return null;
+    }
+
+
+    private Cell getCell(Row row, int index) {
+        Cell cell = row.getCell(index);
+        if (cell == null) {
+            throw new FragenKatalogLoaderException("Es gibt keine Zelle fuer Zeile#" + row.getRowNum() + " und Spalte#" + index + " in Sheet '" + row.getSheet().getSheetName() + "'");
+        }
+        return cell;
     }
 }
