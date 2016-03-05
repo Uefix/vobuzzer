@@ -63,9 +63,6 @@ public class FragenKatalogExcelLoaderTest {
     }
 
 
-
-
-
     @Test
     public void findSheet_allgmein_liefertAllgemeinSheet() throws Exception {
         XSSFWorkbook workbook = new XSSFWorkbook(testInputStream);

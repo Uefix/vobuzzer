@@ -19,12 +19,6 @@ public class FragenKatalog {
         fragen.put(frage.getId(), frage);
     }
 
-
-    public void setFragen(Map<FrageId, Frage> fragen) {
-        this.fragen = fragen;
-    }
-
-
     public Frage getFrage(FrageId frageId) {
         return fragen.get(frageId);
     }

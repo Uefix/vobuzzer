@@ -43,7 +43,7 @@ public class VOBuzzerMain {
 
     private FragenKatalogExcelLoader excelLoader = new FragenKatalogExcelLoader();
 
-    private FragenKatalog fragenKatalog;
+    public static FragenKatalog fragenKatalog;
 
     private VOBuzzerApplication application = new VOBuzzerApplication();
 

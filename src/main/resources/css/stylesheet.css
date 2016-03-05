@@ -1,0 +1,32 @@
+#frage-pane {
+    -fx-background-color: lightblue;
+    -fx-background-radius: 4em;
+    -fx-background-insets: 0 0 0 0;
+/*    -fx-border-style: solid;
+    -fx-border-radius: 0.05%;
+    -fx-border-color: darkblue;
+    -fx-border-width: 5px;
+    -fx-border-insets: 10em; */
+}
+
+#frage-text {
+    -fx-font-weight: bolder;
+    -fx-border-style: solid;
+    -fx-border-color: red;
+    -fx-border-width: 1px;
+    -fx-label-padding: 1em 1em 1em 1em;
+}
+
+.frage-text-gross {
+    -fx-font: 14em "Arial";
+}
+
+.frage-text-klein {
+    -fx-font: 8em "Arial";
+}
+
+
+.antwort-button {
+    -fx-font: 6em "Arial";
+    -fx-padding: 10;
+}
