@@ -1,12 +1,64 @@
+
+
+
+#root-spielpane {
+    -fx-background-image: url("../images/spiel-hintergrund.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+}
+
+
+#frage-box-logo {
+    -fx-image: url("../images/logo_vobuzzer.png");
+}
+
+.text-box-pane-content {
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+    -fx-background-radius: 2.5em;
+    -fx-background-insets: 5.8em 0.6em 0.6em 0.6em;
+    -fx-padding: 5.8em 0.6em 0.6em 0.6em;
+    -fx-border-insets: 5.8em 0.6em 0.6em 0.6em;
+    -fx-border-color: white;
+    -fx-border-width: 0.18em;
+    -fx-border-radius: 2.25em;
+}
+
+.text-box-circle {
+    -fx-fill: rgba(255, 255, 255, 0.75);
+}
+
+.text-box-circle-border {
+    -fx-fill: rgba(0, 0, 0, 0);
+    -fx-stroke: white;
+    -fx-stroke-type: centered;
+    -fx-stroke-width: 0.1em;
+}
+
+.text-box-pane-xborder {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-insets: 5.8em 0em 0.6em 0em;
+    -fx-padding: 5.8em 0em 0.6em 0em;
+    -fx-border-insets: 5.8em 0em 0.6em 0em;
+    -fx-border-color: rgba(255, 255, 255, 0.75);
+    -fx-border-width: 0.1em;
+    -fx-border-radius: 2.25em;
+}
+
+.text-box-pane-yborder {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-insets: 5.2em 0.6em 0em 0.6em;
+    -fx-padding: 5.2em 0.6em 0em 0.6em;
+    -fx-border-insets: 5.2em 0.6em 0em 0.6em;
+    -fx-border-color: rgba(255, 255, 255, 0.75);
+    -fx-border-width: 0.1em;
+    -fx-border-radius: 2.25em;
+}
+
+
 #frage-pane {
-    -fx-background-color: lightblue;
-    -fx-background-radius: 4em;
-    -fx-background-insets: 0 0 0 0;
-/*    -fx-border-style: solid;
-    -fx-border-radius: 0.05%;
-    -fx-border-color: darkblue;
-    -fx-border-width: 5px;
-    -fx-border-insets: 10em; */
+    -fx-background-insets: 0em 4em 0em 4em;
+    -fx-padding: 0em 4em 0em 4em;
 }
 
 #frage-text {
@@ -18,15 +70,15 @@
 }
 
 .frage-text-gross {
-    -fx-font: 14em "Arial";
+    -fx-font: 3em "Arial";
 }
 
 .frage-text-klein {
-    -fx-font: 8em "Arial";
+    -fx-font: 1em "Arial";
 }
 
 
 .antwort-button {
-    -fx-font: 6em "Arial";
+    -fx-font: 2em "Arial";
     -fx-padding: 10;
 }

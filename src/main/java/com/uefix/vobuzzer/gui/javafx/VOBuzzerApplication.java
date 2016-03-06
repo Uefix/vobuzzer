@@ -4,17 +4,24 @@ import com.uefix.vobuzzer.VOBuzzerMain;
 import com.uefix.vobuzzer.model.Frage;
 import com.uefix.vobuzzer.service.FragenService;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -32,11 +39,21 @@ public class VOBuzzerApplication extends Application {
     public static final Logger LOG = Logger.getLogger(VOBuzzerApplication.class);
 
 
+
+
     public void launchApplication(String[] args) {
         Application.launch(args);
     }
 
     private FragenService fragenService;
+
+
+    private StackPane fragePane;
+    private Circle frageCircle;
+    private Circle frageCircleBorder;
+    private StackPane frageYBorderPane;
+    private ImageView frageLogoImage;
+
 
 
     @Override
@@ -45,14 +62,44 @@ public class VOBuzzerApplication extends Application {
 
         fragenService = new FragenService(VOBuzzerMain.fragenKatalog);
 
+        final StackPane rootSpielPane = new StackPane();
+        rootSpielPane.setId("root-spielpane");
+        rootSpielPane.getChildren().add(buildFragenPane());
 
-        StackPane root = new StackPane();
-        root.getChildren().add(buildFragenPane());
-        // ScalableContentPane root = new ScalableContentPane();
-        // root.getContentPane().getChildren().add(buildFragenPane());
-
-        Scene scene = new Scene(root);
+        final Scene scene = new Scene(rootSpielPane);
         scene.getStylesheets().add("css/stylesheet.css");
+
+        scene.heightProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                        LOG.debug("newSceneHeight=" + newSceneHeight);
+
+                        double rootEmValue = newSceneHeight.doubleValue() / 40;
+
+                        DoubleProperty fontSize = new SimpleDoubleProperty(rootEmValue); // font size in pt
+                        rootSpielPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpx;", fontSize));
+
+                        if (frageCircle != null && fragePane != null && frageYBorderPane != null) {
+
+                            final double FRAGE_CIRCLE_TOP_MARGIN = 5.2;
+
+                            double radius = rootEmValue * 3.2;
+                            frageCircle.setRadius(radius);
+                            StackPane.setMargin(frageCircle, new Insets(FRAGE_CIRCLE_TOP_MARGIN * rootEmValue - radius, 0, 0, 0));
+
+                            double radiusBorder = rootEmValue * 3.5;
+                            frageCircleBorder.setRadius(radiusBorder);
+                            StackPane.setMargin(frageCircleBorder, new Insets(FRAGE_CIRCLE_TOP_MARGIN * rootEmValue - radiusBorder - 0.08 * rootEmValue, 0, 0, 0));
+
+                            double logoHeight = rootEmValue * 5.4;
+                            frageLogoImage.setFitHeight(logoHeight);
+                            StackPane.setMargin(frageLogoImage, new Insets(FRAGE_CIRCLE_TOP_MARGIN * rootEmValue - (logoHeight / 2) - 0.08 * rootEmValue, 0, 0, 0));
+                        }
+                    }
+                }
+        );
+
         // scene.getStylesheets().add("file:///d:/var/work.css");
 
         stage.setScene(scene);
@@ -65,8 +112,12 @@ public class VOBuzzerApplication extends Application {
             }
         });
 
+
         stage.show();
     }
+
+
+
 
 
     public GridPane buildFragenPane() {
@@ -87,10 +138,41 @@ public class VOBuzzerApplication extends Application {
         });
         */
 
-        HBox fragePane = new HBox();
+        fragePane = new StackPane();
         fragePane.setId("frage-pane");
+
+        StackPane frageContentPane = new StackPane();
+        frageContentPane.getStyleClass().add("text-box-pane-content");
+        fragePane.getChildren().add(frageContentPane);
+
+        StackPane frageXBorderPane = new StackPane();
+        frageXBorderPane.getStyleClass().add("text-box-pane-xborder");
+        fragePane.getChildren().add(frageXBorderPane);
+
+        frageYBorderPane = new StackPane();
+        frageYBorderPane.getStyleClass().add("text-box-pane-yborder");
+        fragePane.getChildren().add(frageYBorderPane);
+
+        frageCircle = new Circle();
+        frageCircle.getStyleClass().add("text-box-circle");
+        fragePane.getChildren().add(frageCircle);
+        StackPane.setAlignment(frageCircle, Pos.TOP_CENTER);
+
+        frageCircleBorder = new Circle();
+        frageCircleBorder.getStyleClass().add("text-box-circle-border");
+        fragePane.getChildren().add(frageCircleBorder);
+        StackPane.setAlignment(frageCircleBorder, Pos.TOP_CENTER);
+
+        frageLogoImage = new ImageView();
+        frageLogoImage.setId("frage-box-logo");
+        frageLogoImage.setPreserveRatio(true);
+        frageLogoImage.setSmooth(true);
+        fragePane.getChildren().add(frageLogoImage);
+        StackPane.setAlignment(frageLogoImage, Pos.TOP_CENTER);
+
+
 //        fragePane.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        fragePane.getChildren().add(frageText);
+//        fragePane.getChildren().add(frageText);
 
         Button buttonAntwortA = new Button();
         buttonAntwortA.setText("Antwort A");
@@ -148,15 +230,13 @@ public class VOBuzzerApplication extends Application {
         GridPaneBuilder gridPaneBuilder = GridPaneBuilder.create();
 
         gridPaneBuilder.gridLinesVisible(true);
-        gridPaneBuilder.hgap(20);
-        gridPaneBuilder.vgap(20);
         gridPaneBuilder.columnConstraints(
                 columnConstraintsBuilder.halignment(HPos.CENTER).percentWidth(50).fillWidth(true).hgrow(Priority.ALWAYS).build(),
                 columnConstraintsBuilder.build()
         );
         gridPaneBuilder.rowConstraints(
-                rowConstraintsBuilder.valignment(VPos.CENTER).percentHeight(50).fillHeight(true).vgrow(Priority.ALWAYS).build(),
-                rowConstraintsBuilder.percentHeight(25).build(),
+                rowConstraintsBuilder.valignment(VPos.CENTER).percentHeight(40).fillHeight(true).vgrow(Priority.ALWAYS).build(),
+                rowConstraintsBuilder.percentHeight(25).percentHeight(30).build(),
                 rowConstraintsBuilder.build()
         );
 
