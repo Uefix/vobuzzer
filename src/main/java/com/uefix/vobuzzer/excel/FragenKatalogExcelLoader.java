@@ -29,6 +29,8 @@ public class FragenKatalogExcelLoader {
     public FragenKatalog loadFragen(InputStream inputStream, FragenKategorie... fragenKategorien) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 
+
+        Frage laengsteFrage = null;
         FragenKatalog katalog = new FragenKatalog();
         for (FragenKategorie kategorie : fragenKategorien) {
             XSSFSheet sheet = findSheet(workbook, kategorie);
@@ -80,9 +82,16 @@ public class FragenKatalogExcelLoader {
                     throw new FragenKatalogLoaderException("Es gibt keine richtige Antwort fuer Zeile#" + row.getRowNum() + " in Sheet '" + sheet.getSheetName() + "'; Frage: '" + frage.getText() + "'");
                 }
 
+                if (laengsteFrage == null || frage.getText().length() > laengsteFrage.getText().length()) {
+                    laengsteFrage = frage;
+                }
+
                 katalog.addFrage(frage);
             }
         }
+
+        LOG.debug("Laengste Frage: " + (laengsteFrage != null ? laengsteFrage.getText() : null));
+
         return katalog;
     }
 
