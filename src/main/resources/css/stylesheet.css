@@ -1,13 +1,10 @@
 
-
-
 #root-spielpane {
     -fx-background-image: url("../images/spiel-hintergrund.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 100% 100%;
     -fx-background-position: center center;
 }
-
 
 #frage-box-logo {
     -fx-image: url("../images/logo_vobuzzer.png");
@@ -54,7 +51,6 @@
     -fx-border-width: 0.1em;
     -fx-border-radius: 2.25em;
 }
-
 
 #frage-pane {
     -fx-background-insets: 0em 4em 0em 4em;
