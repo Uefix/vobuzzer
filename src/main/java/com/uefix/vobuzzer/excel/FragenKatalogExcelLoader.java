@@ -9,7 +9,9 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -19,6 +21,7 @@ import java.util.Locale;
 /**
  * Created by Uefix on 20.02.2016.
  */
+@Service
 public class FragenKatalogExcelLoader {
 
     public static final Logger LOG = Logger.getLogger(FragenKatalogExcelLoader.class);

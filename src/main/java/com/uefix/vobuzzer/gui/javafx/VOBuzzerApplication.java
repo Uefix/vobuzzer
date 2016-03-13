@@ -43,6 +43,7 @@ public class VOBuzzerApplication extends Application {
 
     public static final Logger LOG = Logger.getLogger(VOBuzzerApplication.class);
 
+    private KonfigurationScreen konfigurationScreen;
     private StartScreen startScreen;
     private SpielScreen spielScreen;
 
@@ -55,17 +56,18 @@ public class VOBuzzerApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        konfigurationScreen = new KonfigurationScreen();
+        konfigurationScreen.initialize();
+
         startScreen = new StartScreen();
         startScreen.initialize();
 
         spielScreen = new SpielScreen();
         spielScreen.initialize();
 
-        // scene.getStylesheets().add("file:///d:/var/work.css");
-
         stage.setTitle("VOBuzzer");
-        stage.setScene(startScreen.getScene());
-        stage.setFullScreen(true);
+        stage.setScene(konfigurationScreen.getScene());
+//        stage.setFullScreen(true);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {

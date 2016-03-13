@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.*;
 
@@ -30,6 +31,7 @@ public class VOBuzzerMain {
 
 
     public static void main(String[] args) {
+
 
         if (args.length > 1 && args[0].equals("-checkexcel")) {
             buzzerMain.checkExcel(args[1]);
@@ -47,8 +49,12 @@ public class VOBuzzerMain {
 
     private VOBuzzerApplication application = new VOBuzzerApplication();
 
+    private ClassPathXmlApplicationContext applicationContext;
+
 
     private void initialize(String[] args) {
+        applicationContext = new ClassPathXmlApplicationContext("vobuzzer-application-context.xml");
+
         String pfadZuExcel = args[0];
         fragenKatalog = loadFragenKatalog(pfadZuExcel);
         application.launchApplication(args);
