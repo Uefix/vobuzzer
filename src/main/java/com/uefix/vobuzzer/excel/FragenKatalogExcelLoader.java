@@ -1,7 +1,12 @@
 package com.uefix.vobuzzer.excel;
 
 import com.uefix.vobuzzer.exception.FragenKatalogLoaderException;
-import com.uefix.vobuzzer.model.*;
+import com.uefix.vobuzzer.model.Antwort;
+import com.uefix.vobuzzer.model.AntwortSlot;
+import com.uefix.vobuzzer.model.Frage;
+import com.uefix.vobuzzer.model.FrageId;
+import com.uefix.vobuzzer.model.FragenKatalog;
+import com.uefix.vobuzzer.model.FragenKategorie;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -9,19 +14,17 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by Uefix on 20.02.2016.
  */
-@Service
+@Named
 public class FragenKatalogExcelLoader {
 
     public static final Logger LOG = Logger.getLogger(FragenKatalogExcelLoader.class);

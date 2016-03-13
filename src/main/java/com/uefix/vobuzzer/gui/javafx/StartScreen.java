@@ -5,16 +5,18 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import org.apache.log4j.Logger;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Named;
 
 /**
  * Created by Uefix on 13.03.2016.
  */
+@Named
 public class StartScreen {
 
     public static final Logger LOG = Logger.getLogger(StartScreen.class);

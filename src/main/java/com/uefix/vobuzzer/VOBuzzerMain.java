@@ -1,102 +1,53 @@
 package com.uefix.vobuzzer;
 
-import com.uefix.vobuzzer.excel.FragenKatalogExcelLoader;
-import com.uefix.vobuzzer.exception.FragenKatalogLoaderException;
-import com.uefix.vobuzzer.gui.javafx.VOBuzzerApplication;
-import com.uefix.vobuzzer.model.FragenKatalog;
-import com.uefix.vobuzzer.model.FragenKategorie;
+import com.uefix.vobuzzer.gui.javafx.VOBuzzerGui;
+import com.uefix.vobuzzer.model.VOBuzzerStateMachine;
+import com.uefix.vobuzzer.service.FragenService;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.*;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Uefix on 20.02.2016.
  */
-public class VOBuzzerMain {
+@Named
+public class VOBuzzerMain extends Application {
 
-    public static final Logger LOG = Logger.getLogger(VOBuzzerMain.class);
+    private static Logger LOG = Logger.getLogger(VOBuzzerMain.class);
 
-    private static VOBuzzerMain buzzerMain = new VOBuzzerMain();
-
+    private static ApplicationContext applicationContext;
 
     public static void main(String[] args) {
+        applicationContext = new ClassPathXmlApplicationContext("vobuzzer-application-context.xml");
+
+        VOBuzzerMain buzzerMain = applicationContext.getBean(VOBuzzerMain.class);
+        buzzerMain.evaluateArguments(args);
+    }
 
 
+    @Inject
+    private FragenService fragenService;
+
+
+    private void evaluateArguments(String[] args) {
         if (args.length > 1 && args[0].equals("-checkexcel")) {
-            buzzerMain.checkExcel(args[1]);
+            fragenService.checkExcel(args[1]);
         } else if (args.length == 1) {
-            buzzerMain.initialize(args);
+            fragenService.loadFragenKatalog(args[0]);
+            Application.launch(args);
         } else {
             LOG.error("Unerwartete Anzahl an Parametern.");
         }
     }
 
-
-    private FragenKatalogExcelLoader excelLoader = new FragenKatalogExcelLoader();
-
-    public static FragenKatalog fragenKatalog;
-
-    private VOBuzzerApplication application = new VOBuzzerApplication();
-
-    private ClassPathXmlApplicationContext applicationContext;
-
-
-    private void initialize(String[] args) {
-        applicationContext = new ClassPathXmlApplicationContext("vobuzzer-application-context.xml");
-
-        String pfadZuExcel = args[0];
-        fragenKatalog = loadFragenKatalog(pfadZuExcel);
-        application.launchApplication(args);
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        VOBuzzerGui voBuzzerGui = applicationContext.getBean(VOBuzzerGui.class);
+        voBuzzerGui.start(primaryStage);
     }
-
-    private FragenKatalog loadFragenKatalog(String pfadZuExcel) {
-        LOG.info("Lade Fragenkatalog-Excel '" + pfadZuExcel + "'...");
-        File file = new File(pfadZuExcel);
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Datei '" + file.getAbsolutePath() + "' existiert nicht.");
-        }
-
-        InputStream is = null;
-        try {
-            is = new BufferedInputStream(new FileInputStream(file));
-            return excelLoader.loadFragen(is, FragenKategorie.values());
-        } catch (IOException ioe) {
-            throw new IllegalStateException("Fehler beim Lesen der Datei '" + file.getAbsolutePath() + "'.", ioe);
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
-    }
-
-    private void checkExcel(String pfadZuExcel)  {
-        LOG.info("Pruefe Fragenkatalog-Excel '" + pfadZuExcel + "'...");
-        File file = new File(pfadZuExcel);
-        if (!file.exists()) {
-            LOG.error("Datei '" + file.getAbsolutePath() + "' existiert nicht.");
-            return;
-        }
-
-        InputStream is = null;
-        try {
-            is = new BufferedInputStream(new FileInputStream(file));
-            excelLoader.loadFragen(is, FragenKategorie.values());
-        } catch (IOException ioe) {
-            LOG.error("Fehler beim Lesen der Datei '" + file.getAbsolutePath() + "'.", ioe);
-        } catch (FragenKatalogLoaderException fkle) {
-            LOG.error("\nACHTUNG:\nExcel ist schrott:\n" + fkle.getMessage());
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
-    }
-
 }

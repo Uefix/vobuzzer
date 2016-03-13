@@ -1,6 +1,5 @@
 package com.uefix.vobuzzer.gui.javafx;
 
-import com.uefix.vobuzzer.VOBuzzerMain;
 import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.Frage;
 import com.uefix.vobuzzer.service.FragenService;
@@ -13,22 +12,30 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraintsBuilder;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.GridPaneBuilder;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraintsBuilder;
+import javafx.scene.layout.StackPane;
 import org.apache.log4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Uefix on 13.03.2016.
  */
+@Named
 public class SpielScreen {
 
-    public static final Logger LOG = Logger.getLogger(VOBuzzerApplication.class);
+    public static final Logger LOG = Logger.getLogger(VOBuzzerGui.class);
 
+    @Inject
     private FragenService fragenService;
 
     private FrageBox frageBox;
@@ -37,8 +44,6 @@ public class SpielScreen {
     private Scene scene;
 
     public void initialize() {
-        fragenService = new FragenService(VOBuzzerMain.fragenKatalog);
-
         frageBox = new FrageBox();
         frageBox.initComponents();
 

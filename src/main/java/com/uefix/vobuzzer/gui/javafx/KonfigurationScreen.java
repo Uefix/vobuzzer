@@ -1,19 +1,25 @@
 package com.uefix.vobuzzer.gui.javafx;
 
 import com.uefix.vobuzzer.model.FragenKategorie;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.uefix.vobuzzer.model.VOBuzzerStateMachine;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraintsBuilder;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.GridPaneBuilder;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraintsBuilder;
 import org.apache.log4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,13 +27,19 @@ import java.util.List;
 /**
  * Created by Uefix on 13.03.2016.
  */
+@Named
 public class KonfigurationScreen {
 
     public static final Logger LOG = Logger.getLogger(StartScreen.class);
 
+
+    @Inject
+    private VOBuzzerStateMachine voBuzzerStateMachine;
+
     private Scene scene;
 
     private Button startButton;
+
 
 
     public void initialize() {
@@ -55,6 +67,13 @@ public class KonfigurationScreen {
 
         startButton = new Button("Start");
         startButton.setDisable(true);
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                voBuzzerStateMachine.setNewState(VOBuzzerStateMachine.State.START);
+            }
+        });
 
         gridPane.add(iconLabel, 0, 0, 2, 1);
         gridPane.add(gsLabel, 0, 1, 1, 1);

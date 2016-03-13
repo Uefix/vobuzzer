@@ -1,14 +1,7 @@
 package com.uefix.vobuzzer.gui.javafx;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.TextAlignment;
 
 /**
  * Created by Uefix on 07.03.2016.
