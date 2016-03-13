@@ -162,11 +162,14 @@ public class VOBuzzerApplication extends Application {
 
         GridPane gridPane = new GridPane();
         gridPane.add(frageBox.getRootPane(), 0, 0, 2, 1);
-        gridPane.add(antwortBoxen.get(AntwortSlot.A).getRootPane(), 0, 1, 1, 1);
-        gridPane.add(antwortBoxen.get(AntwortSlot.B).getRootPane(), 1, 1, 1, 1);
-        gridPane.add(antwortBoxen.get(AntwortSlot.C).getRootPane(), 0, 2, 1, 1);
-        gridPane.add(antwortBoxen.get(AntwortSlot.D).getRootPane(), 1, 2, 1, 1);
-
+//        gridPane.add(antwortBoxen.get(AntwortSlot.A).getRootPane(), 0, 1, 1, 1);
+//        gridPane.add(antwortBoxen.get(AntwortSlot.B).getRootPane(), 1, 1, 1, 1);
+//        gridPane.add(antwortBoxen.get(AntwortSlot.C).getRootPane(), 0, 2, 1, 1);
+//        gridPane.add(antwortBoxen.get(AntwortSlot.D).getRootPane(), 1, 2, 1, 1);
+        gridPane.add(buttonAntwortA, 0, 1, 1, 1);
+        gridPane.add(buttonAntwortB, 1, 1, 1, 1);
+        gridPane.add(buttonAntwortC, 0, 2, 1, 1);
+        gridPane.add(buttonAntwortD, 1, 2, 1, 1);
 
         ColumnConstraintsBuilder columnConstraintsBuilder = ColumnConstraintsBuilder.create();
         RowConstraintsBuilder rowConstraintsBuilder = RowConstraintsBuilder.create();
