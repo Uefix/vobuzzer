@@ -43,7 +43,7 @@ public class SpielScreen {
 
     private Scene scene;
 
-    public void initialize() {
+    public void setupGui() {
         frageBox = new FrageBox();
         frageBox.initComponents();
 

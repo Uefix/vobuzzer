@@ -6,7 +6,7 @@ import javax.inject.Named;
  * Created by Uefix on 13.03.2016.
  */
 @Named
-public class VOBuzzerStateMachine extends ObservableModel<VOBuzzerStateMachine.Event> {
+public class ApplicationStateMachine extends ObservableModel<ApplicationStateMachine.Event> {
 
     public enum State {
         CONFIGURATION,

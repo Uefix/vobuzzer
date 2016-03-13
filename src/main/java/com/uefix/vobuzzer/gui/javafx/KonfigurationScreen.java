@@ -1,7 +1,8 @@
 package com.uefix.vobuzzer.gui.javafx;
 
 import com.uefix.vobuzzer.model.FragenKategorie;
-import com.uefix.vobuzzer.model.VOBuzzerStateMachine;
+import com.uefix.vobuzzer.model.ApplicationStateMachine;
+import com.uefix.vobuzzer.model.SpielStatistik;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -34,7 +35,10 @@ public class KonfigurationScreen {
 
 
     @Inject
-    private VOBuzzerStateMachine voBuzzerStateMachine;
+    private ApplicationStateMachine applicationStateMachine;
+
+    @Inject
+    private SpielStatistik spielStatistik;
 
     private Scene scene;
 
@@ -42,7 +46,7 @@ public class KonfigurationScreen {
 
 
 
-    public void initialize() {
+    public void setupGui() {
         final GridPane gridPane = new GridPane();
         gridPane.setId("root-konfigurationpane");
 
@@ -71,7 +75,9 @@ public class KonfigurationScreen {
 
             @Override
             public void handle(ActionEvent event) {
-                voBuzzerStateMachine.setNewState(VOBuzzerStateMachine.State.START);
+                int anzahlSpiele = Integer.parseInt(anzahlSpieleTextField.getText());
+                spielStatistik.setAnzahlSpiele(anzahlSpiele);
+                applicationStateMachine.setNewState(ApplicationStateMachine.State.START);
             }
         });
 

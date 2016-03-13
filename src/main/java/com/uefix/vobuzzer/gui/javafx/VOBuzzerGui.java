@@ -2,7 +2,7 @@ package com.uefix.vobuzzer.gui.javafx;
 
 import com.uefix.vobuzzer.model.ObservableModel;
 import com.uefix.vobuzzer.model.ModelListener;
-import com.uefix.vobuzzer.model.VOBuzzerStateMachine;
+import com.uefix.vobuzzer.model.ApplicationStateMachine;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -16,12 +16,12 @@ import javax.inject.Named;
  * Created by Uefix on 20.02.2016.
  */
 @Named
-public class VOBuzzerGui implements ModelListener<VOBuzzerStateMachine.Event> {
+public class VOBuzzerGui implements ModelListener<ApplicationStateMachine.Event> {
 
     public static final Logger LOG = Logger.getLogger(VOBuzzerGui.class);
 
     @Inject
-    private VOBuzzerStateMachine voBuzzerStateMachine;
+    private ApplicationStateMachine applicationStateMachine;
 
     @Inject
     private KonfigurationScreen konfigurationScreen;
@@ -37,11 +37,11 @@ public class VOBuzzerGui implements ModelListener<VOBuzzerStateMachine.Event> {
 
     @PostConstruct
     public void initialize() {
-        voBuzzerStateMachine.addListener(this);
+        applicationStateMachine.addListener(this);
     }
 
     @Override
-    public void onEvent(ObservableModel<VOBuzzerStateMachine.Event> model, VOBuzzerStateMachine.Event event) {
+    public void onEvent(ObservableModel<ApplicationStateMachine.Event> model, ApplicationStateMachine.Event event) {
         switch (event.getNewState()) {
             case CONFIGURATION:
                 stage.setScene(konfigurationScreen.getScene());
@@ -50,25 +50,26 @@ public class VOBuzzerGui implements ModelListener<VOBuzzerStateMachine.Event> {
 
             case START:
                 stage.setScene(startScreen.getScene());
-                if (event.getOldState() == VOBuzzerStateMachine.State.CONFIGURATION) {
-                    stage.setFullScreen(true);
-                }
+                stage.setFullScreen(true);
                 break;
 
             case GAME:
                 stage.setScene(spielScreen.getScene());
+                stage.setFullScreen(true);
                 break;
         }
     }
 
     public void start(Stage stage) throws Exception {
-        konfigurationScreen.initialize();
-        startScreen.initialize();
-        spielScreen.initialize();
+        konfigurationScreen.setupGui();
+        startScreen.setupGui();
+        spielScreen.setupGui();
 
         this.stage = stage;
 
         stage.setTitle("VOBuzzer");
+        stage.setScene(startScreen.getScene());
+        stage.setScene(spielScreen.getScene());
         stage.setScene(konfigurationScreen.getScene());
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
