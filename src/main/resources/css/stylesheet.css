@@ -10,7 +10,7 @@
     -fx-image: url("../images/logo_vobuzzer.png");
 }
 
-.text-box-pane-content {
+.frage-text-box-pane-content {
     -fx-background-color: rgba(255, 255, 255, 0.75);
     -fx-background-radius: 2.5em;
     -fx-background-insets: 5.8em 0.6em 0.6em 0.6em;
@@ -21,18 +21,18 @@
     -fx-border-radius: 2.25em;
 }
 
-.text-box-circle {
+.frage-text-box-circle {
     -fx-fill: rgba(255, 255, 255, 0.75);
 }
 
-.text-box-circle-border {
+.frage-text-box-circle-border {
     -fx-fill: rgba(0, 0, 0, 0);
     -fx-stroke: white;
     -fx-stroke-type: centered;
     -fx-stroke-width: 0.1em;
 }
 
-.text-box-pane-xborder {
+.frage-text-box-pane-xborder {
     -fx-background-color: rgba(0, 0, 0, 0);
     -fx-background-insets: 5.8em 0em 0.6em 0em;
     -fx-padding: 5.8em 0em 0.6em 0em;
@@ -42,7 +42,7 @@
     -fx-border-radius: 2.25em;
 }
 
-.text-box-pane-yborder {
+.frage-text-box-pane-yborder {
     -fx-background-color: rgba(0, 0, 0, 0);
     -fx-background-insets: 5.2em 0.6em 0em 0.6em;
     -fx-padding: 5.2em 0.6em 0em 0.6em;
@@ -74,4 +74,81 @@
 .antwort-button {
     -fx-font: 2em "Arial";
     -fx-padding: 10;
+}
+
+
+.antwort-text-box-pane-content {
+    -fx-background-color: rgba(255, 255, 255, 0.75);
+    -fx-background-radius: 2.5em;
+    -fx-background-insets: 5.8em 0.6em 0.6em 0.6em;
+    -fx-padding: 1.6em 0.6em 0.6em 0.6em;
+    -fx-border-insets: 5.8em 0.6em 0.6em 0.6em;
+    -fx-border-color: white;
+    -fx-border-width: 0.18em;
+    -fx-border-radius: 2.25em;
+}
+
+.antwort-text-box-circle {
+    -fx-fill: rgba(255, 255, 255, 0.75);
+}
+
+.antwort-text-box-circle-border {
+    -fx-fill: rgba(0, 0, 0, 0);
+    -fx-stroke: white;
+    -fx-stroke-type: centered;
+    -fx-stroke-width: 0.1em;
+}
+
+.antwort-text-box-pane-xborder {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-insets: 5.8em 0em 0.6em 0em;
+    -fx-padding: 5.8em 0em 0.6em 0em;
+    -fx-border-insets: 5.8em 0em 0.6em 0em;
+    -fx-border-color: rgba(255, 255, 255, 0.75);
+    -fx-border-width: 0.1em;
+    -fx-border-radius: 2.25em;
+}
+
+.antwort-text-box-pane-yborder {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-insets: 5.2em 0.6em 0em 0.6em;
+    -fx-padding: 5.2em 0.6em 0em 0.6em;
+    -fx-border-insets: 5.2em 0.6em 0em 0.6em;
+    -fx-border-color: rgba(255, 255, 255, 0.75);
+    -fx-border-width: 0.1em;
+    -fx-border-radius: 2.25em;
+}
+
+#antwort-a-pane {
+    -fx-background-insets: 0em 2em 0em 4em;
+    -fx-padding: 0em 2em 0em 4em;
+}
+
+#antwort-b-pane {
+    -fx-background-insets: 0em 4em 0em 2em;
+    -fx-padding: 0em 4em 0em 2em;
+}
+
+#antwort-c-pane {
+    -fx-background-insets: 0em 2em 0em 4em;
+    -fx-padding: 0em 2em 0em 4em;
+}
+
+#antwort-d-pane {
+    -fx-background-insets: 0em 4em 0em 2em;
+    -fx-padding: 0em 4em 0em 2em;
+}
+
+
+.antwort-text {
+    -fx-label-padding: 1em 1em 1em 1em;
+    -fx-font-weight: bolder;
+}
+
+.antwort-text-gross {
+    -fx-font: 2em "Arial";
+}
+
+.antwort-text-klein {
+    -fx-font: 1.6em "Arial";
 }

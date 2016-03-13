@@ -1,6 +1,7 @@
 package com.uefix.vobuzzer.gui.javafx;
 
 import com.uefix.vobuzzer.VOBuzzerMain;
+import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.Frage;
 import com.uefix.vobuzzer.service.FragenService;
 import javafx.application.Application;
@@ -30,6 +31,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
+
 /**
  * Created by Uefix on 20.02.2016.
  */
@@ -48,6 +53,7 @@ public class VOBuzzerApplication extends Application {
     private FragenService fragenService;
 
     private FrageBox frageBox;
+    private Map<AntwortSlot, AntwortBox> antwortBoxen;
 
 
     @Override
@@ -58,6 +64,16 @@ public class VOBuzzerApplication extends Application {
 
         frageBox = new FrageBox();
         frageBox.initComponents();
+
+        antwortBoxen = new HashMap<>(4);
+        antwortBoxen.put(AntwortSlot.A, new AntwortBox(AntwortSlot.A));
+        antwortBoxen.put(AntwortSlot.B, new AntwortBox(AntwortSlot.B));
+        antwortBoxen.put(AntwortSlot.C, new AntwortBox(AntwortSlot.C));
+        antwortBoxen.put(AntwortSlot.D, new AntwortBox(AntwortSlot.D));
+        antwortBoxen.forEach((antwortSlot, antwortBox) -> {
+            antwortBox.initComponents();
+        });
+
 
         final StackPane rootSpielPane = new StackPane();
         rootSpielPane.setId("root-spielpane");
@@ -119,7 +135,6 @@ public class VOBuzzerApplication extends Application {
         buttonAntwortA.setText("Antwort A");
         buttonAntwortA.getStyleClass().add("antwort-button");
 
-
         Button buttonAntwortB = new Button();
         buttonAntwortB.setText("Antwort B");
         buttonAntwortB.getStyleClass().add("antwort-button");
@@ -147,10 +162,10 @@ public class VOBuzzerApplication extends Application {
 
         GridPane gridPane = new GridPane();
         gridPane.add(frageBox.getRootPane(), 0, 0, 2, 1);
-        gridPane.add(buttonAntwortA, 0, 1, 1, 1);
-        gridPane.add(buttonAntwortB, 1, 1, 1, 1);
-        gridPane.add(buttonAntwortC, 0, 2, 1, 1);
-        gridPane.add(buttonAntwortD, 1, 2, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.A).getRootPane(), 0, 1, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.B).getRootPane(), 1, 1, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.C).getRootPane(), 0, 2, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.D).getRootPane(), 1, 2, 1, 1);
 
 
         ColumnConstraintsBuilder columnConstraintsBuilder = ColumnConstraintsBuilder.create();
