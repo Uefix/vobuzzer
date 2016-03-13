@@ -1,3 +1,18 @@
+#root-startpane {
+    -fx-background-image: url("../images/start-hintergrund.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+}
+
+#startpane-anzahlspiele {
+    -fx-label-padding: -24em -48em 0em 0em;
+    -fx-text-fill: #EF6700;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-font: 6em "Calibri";
+    -fx-font-weight: bolder;
+}
 
 #root-spielpane {
     -fx-background-image: url("../images/spiel-hintergrund.png");
