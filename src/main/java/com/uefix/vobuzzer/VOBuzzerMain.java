@@ -1,7 +1,6 @@
 package com.uefix.vobuzzer;
 
-import com.uefix.vobuzzer.gui.javafx.VOBuzzerGui;
-import com.uefix.vobuzzer.service.FragenService;
+import com.uefix.vobuzzer.gui.VOBuzzerGui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;

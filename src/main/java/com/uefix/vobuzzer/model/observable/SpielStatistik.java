@@ -23,11 +23,7 @@ public class SpielStatistik extends ObservableModel<SpielStatistik.Event> {
 
     private int anzahlSpiele;
 
-    public int getAnzahlSpiele() {
-        return anzahlSpiele;
-    }
-
-    public void setAnzahlSpiele(int anzahlSpiele) {
+    public void fireAnzahlSpieleChanged(int anzahlSpiele) {
         this.anzahlSpiele = anzahlSpiele;
         notifyListeners(new Event(anzahlSpiele));
     }
