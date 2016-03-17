@@ -5,8 +5,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -44,6 +46,32 @@ public class AntwortBox extends TextBox {
 
         textLabel.getStyleClass().add("antwort-text");
     }
+
+
+    public void renderSelektierteAntwort() {
+        contentPane.getStyleClass().add("antwort-selektiert-content");
+    }
+
+    public void renderFalscheAntwort() {
+        contentPane.getStyleClass().add("antwort-falsch-content");
+    }
+
+
+    public void renderRichtigeAntwort() {
+        contentPane.getStyleClass().add("antwort-richtig-content");
+    }
+
+
+
+    public void reset() {
+        circle.getStyleClass().remove("antwort-selektiert-content");
+        contentPane.getStyleClass().remove("antwort-selektiert-content");
+        circle.getStyleClass().remove("antwort-falsch-content");
+        contentPane.getStyleClass().remove("antwort-falsch-content");
+        circle.getStyleClass().remove("antwort-richtig-content");
+        contentPane.getStyleClass().remove("antwort-richtig-content");
+    }
+
 
 
     @Override

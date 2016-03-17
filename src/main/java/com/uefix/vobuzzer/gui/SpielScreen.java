@@ -1,13 +1,12 @@
 package com.uefix.vobuzzer.gui;
 
+import com.uefix.vobuzzer.SpielController;
 import com.uefix.vobuzzer.model.Antwort;
 import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.Frage;
-import com.uefix.vobuzzer.model.FrageId;
-import com.uefix.vobuzzer.model.FragenKategorie;
 import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
-import com.uefix.vobuzzer.FragenService;
+import com.uefix.vobuzzer.model.SpielSession;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -35,11 +34,15 @@ public class SpielScreen {
 
     public static final Logger LOG = Logger.getLogger(VOBuzzerGui.class);
 
-    @Inject
-    private FragenService fragenService;
 
     @Inject
     private ApplicationStateModel applicationStateModel;
+
+    @Inject
+    private SpielSession spielSession;
+
+    @Inject
+    private SpielController spielController;
 
     @Inject
     private RootEmModel rootEmModel;
@@ -64,10 +67,27 @@ public class SpielScreen {
         frageBox.setText(frage.getText());
 
         antwortBoxen.forEach(((antwortSlot, antwortBox) -> {
+            antwortBox.reset();
+
             Antwort antwort = frage.getAntworten().get(antwortSlot);
             antwortBox.setText(antwort.getText());
         }));
+    }
 
+
+    public void renderSelektierteAntwort(AntwortSlot selektierteAntwort) {
+        antwortBoxen.forEach((antwortSlot, antwortBox) -> {
+            antwortBox.reset();
+        });
+        antwortBoxen.get(selektierteAntwort).renderSelektierteAntwort();
+    }
+
+    public void renderFalscheAntwort(AntwortSlot antwortSlot) {
+        antwortBoxen.get(antwortSlot).renderFalscheAntwort();;
+    }
+
+    public void renderRichtigeAntwort(AntwortSlot antwortSlot) {
+        antwortBoxen.get(antwortSlot).renderRichtigeAntwort();
     }
 
 
@@ -76,8 +96,7 @@ public class SpielScreen {
         frageBox = new FrageBox();
         frageBox.initializeNodes();
         frageBox.setOnCircleClickedHandler(event -> {
-            Frage frage = fragenService.getZufaelligeFrage();
-            setFrage(frage);
+            spielController.neueFrage();
         });
 
         antwortBoxen = new HashMap<>(4);
@@ -85,25 +104,29 @@ public class SpielScreen {
         antwortBoxen.put(AntwortSlot.B, new AntwortBox(AntwortSlot.B));
         antwortBoxen.put(AntwortSlot.C, new AntwortBox(AntwortSlot.C));
         antwortBoxen.put(AntwortSlot.D, new AntwortBox(AntwortSlot.D));
-        antwortBoxen.forEach((antwortSlot, antwortBox) -> antwortBox.initializeNodes());
-
-        antwortBoxen.get(AntwortSlot.A).setOnCircleClickedHandler(event -> {
-            Frage frage = fragenService.getFrage(new FrageId(5, FragenKategorie.ALLGEMEIN));
-            setFrage(frage);
+        antwortBoxen.forEach((antwortSlot, antwortBox) -> {
+            antwortBox.initializeNodes();
+            antwortBox.setOnCircleClickedHandler(event -> {
+                spielController.antwortSelektiert(antwortSlot);
+            });
         });
 
+/*
         antwortBoxen.get(AntwortSlot.B).setOnCircleClickedHandler(event -> {
             frageBox.setText("1998 hat Twisteden am Wettbewerb „unser Dorf soll schöner werden“ teilgenommen. Welche Medaille erhielt sie?");
+            antwortBoxen.forEach(((antwortSlot, antwortBox) -> antwortBox.reset()));
         });
 
         antwortBoxen.get(AntwortSlot.C).setOnCircleClickedHandler(event -> {
-            frageBox.setText("In welchem Jahr ist die Pfarrkirche St. Antonius abgebrandt?");
+            antwortBoxen.get(AntwortSlot.A).renderFalscheAntwort();
+            antwortBoxen.get(AntwortSlot.B).renderRichtigeAntwort();
+            antwortBoxen.get(AntwortSlot.C).renderSelektierteAntwort();
         });
 
         antwortBoxen.get(AntwortSlot.D).setOnCircleClickedHandler(event -> {
             applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
         });
-
+ */
 
 
 

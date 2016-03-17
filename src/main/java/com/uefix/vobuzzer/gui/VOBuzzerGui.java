@@ -97,8 +97,5 @@ public class VOBuzzerGui implements ModelListener<ApplicationStateModel.Event> {
                     }
                 });
         primaryStage.show();
-
-//        applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
-//        applicationStateModel.fireNewState(ApplicationStateModel.State.SPIEL);
     }
 }

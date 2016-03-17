@@ -3,20 +3,29 @@ package com.uefix.vobuzzer.gui;
 import com.uefix.vobuzzer.model.FragenKategorie;
 import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.SpielStatistik;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraintsBuilder;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.GridPaneBuilder;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraintsBuilder;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import org.apache.log4j.Logger;
 
 import javax.inject.Inject;
@@ -52,8 +61,11 @@ public class KonfigurationScreen {
 
         Label iconLabel = new Label();
         iconLabel.setText("Konfiguration");
+        iconLabel.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
 
         Label gsLabel = new Label("Geschäftsstelle");
+        gsLabel.setPrefWidth(100);
+        gsLabel.setTextAlignment(TextAlignment.LEFT);
         ComboBox<FragenKategorie> gsComboBox = new ComboBox<>();
 
         final List<FragenKategorie> gsKategorien = new ArrayList<>();
@@ -66,8 +78,21 @@ public class KonfigurationScreen {
         });
 
         Label anzahlSpieleLabel = new Label("Anzahl Spiele");
+        anzahlSpieleLabel.setPrefWidth(100);
+        anzahlSpieleLabel.setTextAlignment(TextAlignment.LEFT);
         TextField anzahlSpieleTextField = new TextField();
         anzahlSpieleTextField.setText("0");
+        anzahlSpieleTextField.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                try {
+                    Integer.parseInt(anzahlSpieleTextField.getText());
+                    startButton.setDisable(false);
+                } catch (Exception e) {
+                    startButton.setDisable(true);
+                }
+            }
+        });
 
         startButton = new Button("Start");
         startButton.setDisable(true);
@@ -87,6 +112,9 @@ public class KonfigurationScreen {
         gridPane.add(anzahlSpieleLabel, 0, 2, 1, 1);
         gridPane.add(anzahlSpieleTextField, 1, 2, 1, 1);
         gridPane.add(startButton, 0, 3, 2, 1);
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
+        gridPane.setPadding(new Insets(5, 5, 5, 5));
 
         ColumnConstraintsBuilder columnConstraintsBuilder = ColumnConstraintsBuilder.create();
         RowConstraintsBuilder rowConstraintsBuilder = RowConstraintsBuilder.create();
@@ -96,7 +124,7 @@ public class KonfigurationScreen {
 //        gridPaneBuilder.gridLinesVisible(true);
         gridPaneBuilder.columnConstraints(
                 columnConstraintsBuilder.halignment(HPos.CENTER).percentWidth(50).fillWidth(true).hgrow(Priority.ALWAYS).build(),
-                columnConstraintsBuilder.build()
+                columnConstraintsBuilder.halignment(HPos.LEFT).build()
         );
         gridPaneBuilder.rowConstraints(
                 rowConstraintsBuilder.valignment(VPos.CENTER).percentHeight(25).fillHeight(true).vgrow(Priority.ALWAYS).build(),
@@ -106,6 +134,7 @@ public class KonfigurationScreen {
         );
 
         gridPaneBuilder.applyTo(gridPane);
+
 
 
         scene = new Scene(gridPane);

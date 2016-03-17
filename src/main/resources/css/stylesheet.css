@@ -134,6 +134,18 @@
     -fx-border-radius: 2.25em;
 }
 
+.antwort-selektiert-content {
+    -fx-background-color: rgba(0, 150, 255, 0.75);
+}
+
+.antwort-richtig-content {
+    -fx-background-color: rgba(150, 255, 150, 0.75);
+}
+
+.antwort-falsch-content {
+    -fx-background-color: rgba(255, 150, 150, 0.75);
+}
+
 #antwort-a-pane {
     -fx-background-insets: 0em 2em 0em 4em;
     -fx-padding: 0em 2em 0em 4em;

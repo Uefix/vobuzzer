@@ -1,5 +1,6 @@
 package com.uefix.vobuzzer.gui;
 
+import com.uefix.vobuzzer.SpielController;
 import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
 import com.uefix.vobuzzer.model.observable.SpielStatistik;
@@ -22,7 +23,7 @@ public class SpendenUhrScreen {
     public static final Logger LOG = Logger.getLogger(SpendenUhrScreen.class);
 
     @Inject
-    private ApplicationStateModel applicationStateModel;
+    private SpielController spielController;
 
     @Inject
     private RootEmModel rootEmModel;
@@ -53,7 +54,7 @@ public class SpendenUhrScreen {
         anzahlSpieleLabel.setId("startpane-anzahlspiele");
         anzahlSpieleLabel.setText("keine");
         anzahlSpieleLabel.setOnMouseClicked(event ->
-                        applicationStateModel.fireNewState(ApplicationStateModel.State.SPIEL)
+                        spielController.neuesSpiel()
         );
 
         rootSpielPane = new StackPane();

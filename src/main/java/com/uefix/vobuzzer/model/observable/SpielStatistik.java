@@ -23,6 +23,11 @@ public class SpielStatistik extends ObservableModel<SpielStatistik.Event> {
 
     private int anzahlSpiele;
 
+    public void inkrementiereAnzahlSpiele() {
+        anzahlSpiele++;
+        fireAnzahlSpieleChanged(anzahlSpiele);
+    }
+
     public void fireAnzahlSpieleChanged(int anzahlSpiele) {
         this.anzahlSpiele = anzahlSpiele;
         notifyListeners(new Event(anzahlSpiele));
