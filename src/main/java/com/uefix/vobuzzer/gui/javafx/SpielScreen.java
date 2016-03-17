@@ -2,17 +2,15 @@ package com.uefix.vobuzzer.gui.javafx;
 
 import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.Frage;
+import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
+import com.uefix.vobuzzer.model.observable.RootEmModel;
 import com.uefix.vobuzzer.service.FragenService;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraintsBuilder;
 import javafx.scene.layout.GridPane;
@@ -22,6 +20,7 @@ import javafx.scene.layout.RowConstraintsBuilder;
 import javafx.scene.layout.StackPane;
 import org.apache.log4j.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.HashMap;
@@ -38,10 +37,26 @@ public class SpielScreen {
     @Inject
     private FragenService fragenService;
 
+    @Inject
+    private ApplicationStateModel applicationStateModel;
+
+    @Inject
+    private RootEmModel rootEmModel;
+
     private FrageBox frageBox;
     private Map<AntwortSlot, AntwortBox> antwortBoxen;
 
-    private Scene scene;
+    private StackPane rootSpielPane;
+
+    @PostConstruct
+    public void initialize() {
+        rootEmModel.addListener(((model, event) -> {
+            double rootEmValue = event.getNewRootEmValue();
+            rootSpielPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpx;", rootEmValue));
+            frageBox.onSceneHeightChanged(rootEmValue);
+        }));
+    }
+
 
     public void setupGui() {
         frageBox = new FrageBox();
@@ -54,36 +69,17 @@ public class SpielScreen {
         antwortBoxen.put(AntwortSlot.D, new AntwortBox(AntwortSlot.D));
         antwortBoxen.forEach((antwortSlot, antwortBox) -> antwortBox.initComponents());
 
-
-        final StackPane rootSpielPane = new StackPane();
+        rootSpielPane = new StackPane();
         rootSpielPane.setId("root-spielpane");
         rootSpielPane.getChildren().add(buildFragenPane());
+    }
 
-        scene = new Scene(rootSpielPane);
-        scene.getStylesheets().add("css/stylesheet.css");
-        scene.heightProperty().addListener(
-                new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                        LOG.debug("newSceneHeight=" + newSceneHeight);
-
-                        double rootEmValue = newSceneHeight.doubleValue() / 40;
-
-                        DoubleProperty fontSize = new SimpleDoubleProperty(rootEmValue); // font size in pt
-                        rootSpielPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpx;", fontSize));
-
-                        frageBox.onSceneHeightChanged(rootEmValue);
-                    }
-                }
-        );
+    public Parent getRoot() {
+        return rootSpielPane;
     }
 
 
-    public Scene getScene() {
-        return scene;
-    }
-
-    public GridPane buildFragenPane() {
+    private GridPane buildFragenPane() {
 
         /*
         frageText.textProperty().addListener(new ChangeListener<String>() {
@@ -125,6 +121,12 @@ public class SpielScreen {
         Button buttonAntwortD = new Button();
         buttonAntwortD.setText("Antwort D");
         buttonAntwortD.getStyleClass().add("antwort-button");
+        buttonAntwortD.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                applicationStateModel.setNewState(ApplicationStateModel.State.SPENDENUHR);
+            }
+        });
 
         GridPane gridPane = new GridPane();
         gridPane.add(frageBox.getRootPane(), 0, 0, 2, 1);
@@ -154,8 +156,6 @@ public class SpielScreen {
         );
 
         gridPaneBuilder.applyTo(gridPane);
-
-
         return gridPane;
     }
 }

@@ -1,4 +1,4 @@
-package com.uefix.vobuzzer.model;
+package com.uefix.vobuzzer.model.observable;
 
 import javax.inject.Named;
 
@@ -6,16 +6,16 @@ import javax.inject.Named;
  * Created by Uefix on 13.03.2016.
  */
 @Named
-public class ApplicationStateMachine extends ObservableModel<ApplicationStateMachine.Event> {
+public class ApplicationStateModel extends ObservableModel<ApplicationStateModel.Event> {
 
     public enum State {
-        CONFIGURATION,
-        START,
-        GAME
+        KONFIGURATION,
+        SPENDENUHR,
+        SPIEL
     }
 
 
-    private State state = State.CONFIGURATION;
+    private State state = State.KONFIGURATION;
 
     public void setNewState(State newState) {
         if (newState != this.state) {

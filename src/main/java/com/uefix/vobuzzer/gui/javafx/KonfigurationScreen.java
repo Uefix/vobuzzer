@@ -1,8 +1,8 @@
 package com.uefix.vobuzzer.gui.javafx;
 
 import com.uefix.vobuzzer.model.FragenKategorie;
-import com.uefix.vobuzzer.model.ApplicationStateMachine;
-import com.uefix.vobuzzer.model.SpielStatistik;
+import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
+import com.uefix.vobuzzer.model.observable.SpielStatistik;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -31,11 +31,11 @@ import java.util.List;
 @Named
 public class KonfigurationScreen {
 
-    public static final Logger LOG = Logger.getLogger(StartScreen.class);
+    public static final Logger LOG = Logger.getLogger(SpendenUhrScreen.class);
 
 
     @Inject
-    private ApplicationStateMachine applicationStateMachine;
+    private ApplicationStateModel applicationStateModel;
 
     @Inject
     private SpielStatistik spielStatistik;
@@ -77,7 +77,7 @@ public class KonfigurationScreen {
             public void handle(ActionEvent event) {
                 int anzahlSpiele = Integer.parseInt(anzahlSpieleTextField.getText());
                 spielStatistik.setAnzahlSpiele(anzahlSpiele);
-                applicationStateMachine.setNewState(ApplicationStateMachine.State.START);
+                applicationStateModel.setNewState(ApplicationStateModel.State.SPENDENUHR);
             }
         });
 

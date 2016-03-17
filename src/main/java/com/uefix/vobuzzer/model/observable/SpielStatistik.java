@@ -1,4 +1,4 @@
-package com.uefix.vobuzzer.model;
+package com.uefix.vobuzzer.model.observable;
 
 import javax.inject.Named;
 
@@ -8,7 +8,7 @@ import javax.inject.Named;
 @Named
 public class SpielStatistik extends ObservableModel<SpielStatistik.Event> {
 
-    public static class Event implements ModelEvent{
+    public static class Event implements ModelEvent {
         private int anzahlSpiele;
 
         public Event(int anzahlSpiele) {
