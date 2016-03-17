@@ -1,4 +1,4 @@
-package com.uefix.vobuzzer.exception;
+package com.uefix.vobuzzer.excel.exception;
 
 /**
  * Created by Uefix on 20.02.2016.

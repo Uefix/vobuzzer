@@ -20,7 +20,7 @@ public class TextBox {
     protected Circle circleBorder;
     protected StackPane xBorderPane;
     protected StackPane yBorderPane;
-    protected ImageView circleImage;
+
     protected Label textLabel;
 
     protected final String styleClassPrefix;
@@ -31,7 +31,7 @@ public class TextBox {
         this.wordCountFontSizeThreshold = wordCountFontSizeThreshold;
     }
 
-    public void initComponents() {
+    public void initializeNodes() {
         rootPane = new StackPane();
 
         textLabel = new Label("");
@@ -62,11 +62,7 @@ public class TextBox {
         rootPane.getChildren().add(circleBorder);
         StackPane.setAlignment(circleBorder, Pos.TOP_CENTER);
 
-        circleImage = new ImageView();
-        circleImage.setPreserveRatio(true);
-        circleImage.setSmooth(true);
-        rootPane.getChildren().add(circleImage);
-        StackPane.setAlignment(circleImage, Pos.TOP_CENTER);
+
     }
 
 

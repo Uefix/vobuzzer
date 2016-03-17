@@ -2,19 +2,24 @@ package com.uefix.vobuzzer.gui.javafx;
 
 import com.uefix.vobuzzer.model.AntwortSlot;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+
 
 /**
  * Created by Uefix on 07.03.2016.
  */
 public class AntwortBox extends TextBox {
 
-    private static final double CIRCLE_TOP_MARGIN_EM = 5.2d;
-    private static final double CIRCLE_RADIUS_EM = 3.2d;
-    private static final double CIRCLE_BORDER_RADIUS_EM = 3.5d;
-    private static final double LOGO_HEIGHT_EM = 5.4d;
+    private static final double CIRCLE_TOP_MARGIN_EM = 3.5d;
+    private static final double CIRCLE_RADIUS_EM = 2.1d;
+    private static final double CIRCLE_BORDER_RADIUS_EM = 2.25d;
+    private static final double LABEL_HEIGHT_EM = 3.7d;
 
     private final AntwortSlot antwortSlot;
+
+    private Label circleLabel;
 
     public AntwortBox(AntwortSlot antwortSlot) {
         super("antwort", 50);
@@ -23,12 +28,17 @@ public class AntwortBox extends TextBox {
 
 
     @Override
-    public void initComponents() {
-        super.initComponents();
+    public void initializeNodes() {
+        super.initializeNodes();
         String slotQualifier = antwortSlot.name().toLowerCase();
 
         rootPane.setId("antwort-" + slotQualifier + "-pane");
-        circleImage.setId("antwort-" + slotQualifier + "-box-logo");
+
+        circleLabel = new Label(antwortSlot.name());
+        circleLabel.setId("antwort-" + slotQualifier + "-box-label");
+        circleLabel.getStyleClass().add("antwort-box-label");
+        rootPane.getChildren().add(circleLabel);
+        StackPane.setAlignment(circleLabel, Pos.TOP_CENTER);
 
         textLabel.getStyleClass().add("antwort-text");
     }
@@ -40,12 +50,13 @@ public class AntwortBox extends TextBox {
         circle.setRadius(radius);
         StackPane.setMargin(circle, new Insets(CIRCLE_TOP_MARGIN_EM * rootEmValue - radius, 0, 0, 0));
 
+        double magicCircleNumber = 0.015d;
+
         double radiusBorder = CIRCLE_BORDER_RADIUS_EM * rootEmValue;
         circleBorder.setRadius(radiusBorder);
-        StackPane.setMargin(circleBorder, new Insets(CIRCLE_TOP_MARGIN_EM * rootEmValue - radiusBorder - 0.08 * rootEmValue, 0, 0, 0));
+        StackPane.setMargin(circleBorder, new Insets(CIRCLE_TOP_MARGIN_EM * rootEmValue - radiusBorder - magicCircleNumber * rootEmValue, 0, 0, 0));
 
-        double logoHeight = LOGO_HEIGHT_EM * rootEmValue;
-        circleImage.setFitHeight(logoHeight);
-        StackPane.setMargin(circleImage, new Insets(CIRCLE_TOP_MARGIN_EM * rootEmValue - (logoHeight / 2) - 0.08 * rootEmValue, 0, 0, 0));
+        double logoHeight = LABEL_HEIGHT_EM * rootEmValue;
+        StackPane.setMargin(circleLabel, new Insets(CIRCLE_TOP_MARGIN_EM * rootEmValue - (logoHeight / 2) - magicCircleNumber * rootEmValue, 0, 0, 0));
     }
 }

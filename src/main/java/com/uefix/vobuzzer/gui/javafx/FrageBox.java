@@ -1,6 +1,8 @@
 package com.uefix.vobuzzer.gui.javafx;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -13,6 +15,8 @@ public class FrageBox extends TextBox {
     private static final double CIRCLE_BORDER_RADIUS_EM = 3.5d;
     private static final double LOGO_HEIGHT_EM = 5.4d;
 
+    protected ImageView circleImage;
+
 
     public FrageBox() {
         super("frage", 80);
@@ -20,11 +24,17 @@ public class FrageBox extends TextBox {
 
 
     @Override
-    public void initComponents() {
-        super.initComponents();
+    public void initializeNodes() {
+        super.initializeNodes();
         rootPane.setId("frage-pane");
         textLabel.setId("frage-text");
+
+        circleImage = new ImageView();
         circleImage.setId("frage-box-logo");
+        circleImage.setPreserveRatio(true);
+        circleImage.setSmooth(true);
+        rootPane.getChildren().add(circleImage);
+        StackPane.setAlignment(circleImage, Pos.TOP_CENTER);
     }
 
 

@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraintsBuilder;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.GridPaneBuilder;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraintsBuilder;
 import javafx.scene.layout.StackPane;
@@ -54,20 +55,21 @@ public class SpielScreen {
             double rootEmValue = event.getNewRootEmValue();
             rootSpielPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpx;", rootEmValue));
             frageBox.onSceneHeightChanged(rootEmValue);
+            antwortBoxen.forEach((antwortSlot, antwortBox) -> antwortBox.onSceneHeightChanged(rootEmValue));
         }));
     }
 
 
-    public void setupGui() {
+    public void initializeNodes() {
         frageBox = new FrageBox();
-        frageBox.initComponents();
+        frageBox.initializeNodes();
 
         antwortBoxen = new HashMap<>(4);
         antwortBoxen.put(AntwortSlot.A, new AntwortBox(AntwortSlot.A));
         antwortBoxen.put(AntwortSlot.B, new AntwortBox(AntwortSlot.B));
         antwortBoxen.put(AntwortSlot.C, new AntwortBox(AntwortSlot.C));
         antwortBoxen.put(AntwortSlot.D, new AntwortBox(AntwortSlot.D));
-        antwortBoxen.forEach((antwortSlot, antwortBox) -> antwortBox.initComponents());
+        antwortBoxen.forEach((antwortSlot, antwortBox) -> antwortBox.initializeNodes());
 
         rootSpielPane = new StackPane();
         rootSpielPane.setId("root-spielpane");
@@ -80,19 +82,6 @@ public class SpielScreen {
 
 
     private GridPane buildFragenPane() {
-
-        /*
-        frageText.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                frageText.setPrefHeight(1);
-                frageText.setPrefWidth(frageText.getText().length() * 7);
-            }
-        });
-        */
-//        fragePane.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-//        fragePane.getChildren().add(frageText);
-
         Button buttonAntwortA = new Button();
         buttonAntwortA.setText("Antwort A");
         buttonAntwortA.getStyleClass().add("antwort-button");
@@ -124,35 +113,32 @@ public class SpielScreen {
         buttonAntwortD.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                applicationStateModel.setNewState(ApplicationStateModel.State.SPENDENUHR);
+                applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
             }
         });
 
         GridPane gridPane = new GridPane();
         gridPane.add(frageBox.getRootPane(), 0, 0, 2, 1);
-//        gridPane.add(antwortBoxen.get(AntwortSlot.A).getRootPane(), 0, 1, 1, 1);
-//        gridPane.add(antwortBoxen.get(AntwortSlot.B).getRootPane(), 1, 1, 1, 1);
-//        gridPane.add(antwortBoxen.get(AntwortSlot.C).getRootPane(), 0, 2, 1, 1);
-//        gridPane.add(antwortBoxen.get(AntwortSlot.D).getRootPane(), 1, 2, 1, 1);
-        gridPane.add(buttonAntwortA, 0, 1, 1, 1);
-        gridPane.add(buttonAntwortB, 1, 1, 1, 1);
-        gridPane.add(buttonAntwortC, 0, 2, 1, 1);
-        gridPane.add(buttonAntwortD, 1, 2, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.A).getRootPane(), 0, 1, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.B).getRootPane(), 1, 1, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.C).getRootPane(), 0, 2, 1, 1);
+        gridPane.add(antwortBoxen.get(AntwortSlot.D).getRootPane(), 1, 2, 1, 1);
+        gridPane.add(new HBox(), 0, 3, 2, 1);
 
         ColumnConstraintsBuilder columnConstraintsBuilder = ColumnConstraintsBuilder.create();
         RowConstraintsBuilder rowConstraintsBuilder = RowConstraintsBuilder.create();
 
         GridPaneBuilder gridPaneBuilder = GridPaneBuilder.create();
 
-//        gridPaneBuilder.gridLinesVisible(true);
         gridPaneBuilder.columnConstraints(
                 columnConstraintsBuilder.halignment(HPos.CENTER).percentWidth(50).fillWidth(true).hgrow(Priority.ALWAYS).build(),
                 columnConstraintsBuilder.build()
         );
         gridPaneBuilder.rowConstraints(
                 rowConstraintsBuilder.valignment(VPos.CENTER).percentHeight(40).fillHeight(true).vgrow(Priority.ALWAYS).build(),
-                rowConstraintsBuilder.percentHeight(25).percentHeight(30).build(),
-                rowConstraintsBuilder.build()
+                rowConstraintsBuilder.percentHeight(26).build(),
+                rowConstraintsBuilder.build(),
+                rowConstraintsBuilder.percentHeight(8).build()
         );
 
         gridPaneBuilder.applyTo(gridPane);

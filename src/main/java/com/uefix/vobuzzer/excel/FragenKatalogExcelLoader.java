@@ -1,6 +1,6 @@
 package com.uefix.vobuzzer.excel;
 
-import com.uefix.vobuzzer.exception.FragenKatalogLoaderException;
+import com.uefix.vobuzzer.excel.exception.FragenKatalogLoaderException;
 import com.uefix.vobuzzer.model.Antwort;
 import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.Frage;

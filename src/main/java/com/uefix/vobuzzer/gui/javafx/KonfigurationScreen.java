@@ -46,7 +46,7 @@ public class KonfigurationScreen {
 
 
 
-    public void setupGui() {
+    public void initializeNodes() {
         final GridPane gridPane = new GridPane();
         gridPane.setId("root-konfigurationpane");
 
@@ -77,7 +77,7 @@ public class KonfigurationScreen {
             public void handle(ActionEvent event) {
                 int anzahlSpiele = Integer.parseInt(anzahlSpieleTextField.getText());
                 spielStatistik.setAnzahlSpiele(anzahlSpiele);
-                applicationStateModel.setNewState(ApplicationStateModel.State.SPENDENUHR);
+                applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
             }
         });
 

@@ -17,7 +17,8 @@ public class ApplicationStateModel extends ObservableModel<ApplicationStateModel
 
     private State state = State.KONFIGURATION;
 
-    public void setNewState(State newState) {
+
+    public void fireNewState(State newState) {
         if (newState != this.state) {
             State oldState = this.state;
             this.state = newState;

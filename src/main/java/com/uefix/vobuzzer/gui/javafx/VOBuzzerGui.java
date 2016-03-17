@@ -72,9 +72,9 @@ public class VOBuzzerGui implements ModelListener<ApplicationStateModel.Event> {
     }
 
     public void start(Stage primaryStage) throws Exception {
-        konfigurationScreen.setupGui();
-        spendenUhrScreen.setupGui();
-        spielScreen.setupGui();
+        konfigurationScreen.initializeNodes();
+        spendenUhrScreen.initializeNodes();
+        spielScreen.initializeNodes();
 
         Parent dummyRootNode = new HBox();
         gameScene = new Scene(dummyRootNode);
@@ -97,5 +97,8 @@ public class VOBuzzerGui implements ModelListener<ApplicationStateModel.Event> {
                     }
                 });
         primaryStage.show();
+
+        applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
+        applicationStateModel.fireNewState(ApplicationStateModel.State.SPIEL);
     }
 }

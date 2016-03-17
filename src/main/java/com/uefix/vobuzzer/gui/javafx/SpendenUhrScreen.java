@@ -48,12 +48,12 @@ public class SpendenUhrScreen {
     }
 
 
-    public void setupGui() {
+    public void initializeNodes() {
         anzahlSpieleLabel = new Label();
         anzahlSpieleLabel.setId("startpane-anzahlspiele");
         anzahlSpieleLabel.setText("keine");
         anzahlSpieleLabel.setOnMouseClicked(event ->
-                        applicationStateModel.setNewState(ApplicationStateModel.State.SPIEL)
+                        applicationStateModel.fireNewState(ApplicationStateModel.State.SPIEL)
         );
 
         rootSpielPane = new StackPane();
