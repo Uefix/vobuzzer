@@ -1,9 +1,7 @@
 package com.uefix.vobuzzer.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

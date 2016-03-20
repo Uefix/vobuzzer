@@ -3,8 +3,8 @@ package com.uefix.vobuzzer;
 import com.uefix.vobuzzer.gui.SpielScreen;
 import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.Frage;
-import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.SpielSession;
+import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.SpielStatistik;
 
 import javax.inject.Inject;

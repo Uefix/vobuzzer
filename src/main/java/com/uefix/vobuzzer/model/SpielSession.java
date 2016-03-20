@@ -1,8 +1,5 @@
 package com.uefix.vobuzzer.model;
 
-import com.uefix.vobuzzer.model.AntwortSlot;
-import com.uefix.vobuzzer.model.Frage;
-
 import javax.inject.Named;
 
 /**

@@ -1,17 +1,13 @@
 package com.uefix.vobuzzer.gui;
 
-import com.uefix.vobuzzer.model.observable.ObservableModel;
-import com.uefix.vobuzzer.model.observable.ModelListener;
 import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
+import com.uefix.vobuzzer.model.observable.ModelListener;
+import com.uefix.vobuzzer.model.observable.ObservableModel;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;

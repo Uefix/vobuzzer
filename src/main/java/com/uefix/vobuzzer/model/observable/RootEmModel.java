@@ -1,8 +1,5 @@
 package com.uefix.vobuzzer.model.observable;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
 import javax.inject.Named;
 
 /**
