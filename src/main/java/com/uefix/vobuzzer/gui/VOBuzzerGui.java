@@ -4,6 +4,8 @@ import com.uefix.vobuzzer.model.observable.ObservableModel;
 import com.uefix.vobuzzer.model.observable.ModelListener;
 import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -89,13 +91,13 @@ public class VOBuzzerGui implements ModelListener<ApplicationStateModel.Event> {
 
         primaryStage.setTitle("VOBuzzer");
         primaryStage.setScene(konfigurationScreen.getScene());
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent windowEvent) {
-                        LOG.info("Byebye.");
-                        System.exit(0);
-                    }
-                });
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            LOG.info("Byebye.");
+            System.exit(0);
+        });
+        primaryStage.maximizedProperty().addListener((ov, t, t1) -> {
+            primaryStage.setFullScreen(true);
+        });
         primaryStage.show();
     }
 }

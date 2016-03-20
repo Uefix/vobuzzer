@@ -82,28 +82,21 @@ public class KonfigurationScreen {
         anzahlSpieleLabel.setTextAlignment(TextAlignment.LEFT);
         TextField anzahlSpieleTextField = new TextField();
         anzahlSpieleTextField.setText("0");
-        anzahlSpieleTextField.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                try {
-                    Integer.parseInt(anzahlSpieleTextField.getText());
-                    startButton.setDisable(false);
-                } catch (Exception e) {
-                    startButton.setDisable(true);
-                }
+        anzahlSpieleTextField.setOnKeyTyped(event -> {
+            try {
+                Integer.parseInt(anzahlSpieleTextField.getText());
+                startButton.setDisable(false);
+            } catch (Exception e) {
+                startButton.setDisable(true);
             }
         });
 
         startButton = new Button("Start");
         startButton.setDisable(true);
-        startButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                int anzahlSpiele = Integer.parseInt(anzahlSpieleTextField.getText());
-                spielStatistik.fireAnzahlSpieleChanged(anzahlSpiele);
-                applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
-            }
+        startButton.setOnAction(event -> {
+            int anzahlSpiele = Integer.parseInt(anzahlSpieleTextField.getText());
+            spielStatistik.fireAnzahlSpieleChanged(anzahlSpiele);
+            applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
         });
 
         gridPane.add(iconLabel, 0, 0, 2, 1);
