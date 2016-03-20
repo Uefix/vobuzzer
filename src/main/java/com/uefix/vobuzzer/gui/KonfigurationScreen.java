@@ -78,7 +78,7 @@ public class KonfigurationScreen {
         anzahlSpieleTextField.setOnKeyTyped(event -> {
             try {
                 Integer.parseInt(anzahlSpieleTextField.getText());
-                startButton.setDisable(false);
+                startButton.setDisable(gsComboBox.getSelectionModel().getSelectedItem() == null);
             } catch (Exception e) {
                 startButton.setDisable(true);
             }
@@ -106,8 +106,6 @@ public class KonfigurationScreen {
         RowConstraintsBuilder rowConstraintsBuilder = RowConstraintsBuilder.create();
 
         GridPaneBuilder gridPaneBuilder = GridPaneBuilder.create();
-
-//        gridPaneBuilder.gridLinesVisible(true);
         gridPaneBuilder.columnConstraints(
                 columnConstraintsBuilder.halignment(HPos.CENTER).percentWidth(50).fillWidth(true).hgrow(Priority.ALWAYS).build(),
                 columnConstraintsBuilder.halignment(HPos.LEFT).build()

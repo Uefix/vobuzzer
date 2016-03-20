@@ -16,7 +16,7 @@ import javax.inject.Named;
 @Named
 public class SpielController {
 
-    private static final int MAXIMALE_ANZAHL_SPIELE = 5;
+    private static final int MAXIMALE_ANZAHL_FRAGEN = 5;
 
     @Inject
     private ApplicationStateModel applicationStateModel;
@@ -43,7 +43,7 @@ public class SpielController {
 
     public void neueFrage() {
         int anzahlGestellterFragen = spielSession.getAnzahlGestellterFragen();
-        if (anzahlGestellterFragen == MAXIMALE_ANZAHL_SPIELE) {
+        if (anzahlGestellterFragen == MAXIMALE_ANZAHL_FRAGEN) {
             spielStatistik.inkrementiereAnzahlSpiele();
             applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
         } else {
@@ -71,10 +71,7 @@ public class SpielController {
                 }
                 spielScreen.renderRichtigeAntwort(richtigeAntwort);
                 spielSession.setSelektionMoeglich(false);
-                int anzahlGestellterFragen = spielSession.getAnzahlGestellterFragen();
-                anzahlGestellterFragen++;
-                spielSession.setAnzahlGestellterFragen(anzahlGestellterFragen);
-
+                spielSession.inkrementiereAnzahlGestellterFragen();
             }
         }
     }

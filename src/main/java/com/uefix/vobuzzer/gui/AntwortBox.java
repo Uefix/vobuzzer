@@ -54,11 +54,9 @@ public class AntwortBox extends TextBox {
         contentPane.getStyleClass().add("antwort-falsch-content");
     }
 
-
     public void renderRichtigeAntwort() {
         contentPane.getStyleClass().add("antwort-richtig-content");
     }
-
 
 
     public void reset() {
@@ -91,5 +89,7 @@ public class AntwortBox extends TextBox {
     @Override
     public void setOnCircleClickedHandler(EventHandler<MouseEvent> eventHandler) {
         circleLabel.setOnMouseClicked(eventHandler);
+        circleBorder.setOnMouseClicked(eventHandler);
+        yBorderPane.setOnMouseClicked(eventHandler);
     }
 }

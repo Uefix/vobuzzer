@@ -34,13 +34,6 @@ public class SpielScreen {
 
     public static final Logger LOG = Logger.getLogger(VOBuzzerGui.class);
 
-
-    @Inject
-    private ApplicationStateModel applicationStateModel;
-
-    @Inject
-    private SpielSession spielSession;
-
     @Inject
     private SpielController spielController;
 
@@ -110,25 +103,6 @@ public class SpielScreen {
                 spielController.antwortSelektiert(antwortSlot);
             });
         });
-
-/*
-        antwortBoxen.get(AntwortSlot.B).setOnCircleClickedHandler(event -> {
-            frageBox.setText("1998 hat Twisteden am Wettbewerb „unser Dorf soll schöner werden“ teilgenommen. Welche Medaille erhielt sie?");
-            antwortBoxen.forEach(((antwortSlot, antwortBox) -> antwortBox.reset()));
-        });
-
-        antwortBoxen.get(AntwortSlot.C).setOnCircleClickedHandler(event -> {
-            antwortBoxen.get(AntwortSlot.A).renderFalscheAntwort();
-            antwortBoxen.get(AntwortSlot.B).renderRichtigeAntwort();
-            antwortBoxen.get(AntwortSlot.C).renderSelektierteAntwort();
-        });
-
-        antwortBoxen.get(AntwortSlot.D).setOnCircleClickedHandler(event -> {
-            applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
-        });
- */
-
-
 
         rootSpielPane = new StackPane();
         rootSpielPane.setId("root-spielpane");

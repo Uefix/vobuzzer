@@ -50,6 +50,7 @@ public class SpielSession {
     public boolean isSelektionMoeglich() {
         return selektionMoeglich;
     }
+
     public void setSelektionMoeglich(boolean selektionMoeglich) {
         this.selektionMoeglich = selektionMoeglich;
     }

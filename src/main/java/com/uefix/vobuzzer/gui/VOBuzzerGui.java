@@ -88,7 +88,7 @@ public class VOBuzzerGui implements ModelListener<ApplicationStateModel.Event> {
         primaryStage.setTitle("VOBuzzer");
         primaryStage.setScene(konfigurationScreen.getScene());
         primaryStage.setOnCloseRequest(windowEvent -> {
-            LOG.info("Byebye.");
+            LOG.info("Ciao :D");
             System.exit(0);
         });
         primaryStage.maximizedProperty().addListener((ov, t, t1) -> {

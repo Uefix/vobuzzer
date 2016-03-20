@@ -4,9 +4,16 @@ import com.uefix.vobuzzer.SpielController;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
 import com.uefix.vobuzzer.model.observable.SpielStatistik;
 import javafx.beans.binding.Bindings;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.ColumnConstraintsBuilder;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.GridPaneBuilder;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraintsBuilder;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
@@ -33,7 +40,7 @@ public class SpendenUhrScreen {
 
     private Label anzahlSpieleLabel;
 
-    private StackPane rootSpielPane;
+    private GridPane rootStartPane;
 
 
     @PostConstruct
@@ -43,7 +50,7 @@ public class SpendenUhrScreen {
         });
 
         rootEmModel.addListener((model, event) -> {
-            rootSpielPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpx;", event.getNewRootEmValue()));
+            rootStartPane.styleProperty().bind(Bindings.format("-fx-font-size: %.2fpx;", event.getNewRootEmValue()));
         });
     }
 
@@ -56,13 +63,35 @@ public class SpendenUhrScreen {
                         spielController.neuesSpiel()
         );
 
-        rootSpielPane = new StackPane();
-        rootSpielPane.setId("root-startpane");
-        rootSpielPane.getChildren().add(anzahlSpieleLabel);
+        rootStartPane = new GridPane();
+        rootStartPane.setId("root-startpane");
+
+        rootStartPane.add(new HBox(), 0, 0, 3, 1);
+        rootStartPane.add(new HBox(), 0, 1, 1, 1);
+        rootStartPane.add(anzahlSpieleLabel, 1, 1, 1, 1);
+        rootStartPane.add(new HBox(), 2, 1, 1, 1);
+
+        ColumnConstraintsBuilder columnConstraintsBuilder = ColumnConstraintsBuilder.create();
+        RowConstraintsBuilder rowConstraintsBuilder = RowConstraintsBuilder.create();
+
+        GridPaneBuilder gridPaneBuilder = GridPaneBuilder.create();
+
+        gridPaneBuilder.gridLinesVisible(false);
+        gridPaneBuilder.columnConstraints(
+                columnConstraintsBuilder.halignment(HPos.CENTER).percentWidth(46).fillWidth(true).hgrow(Priority.ALWAYS).build(),
+                columnConstraintsBuilder.percentWidth(40).build(),
+                columnConstraintsBuilder.percentWidth(14).build()
+        );
+        gridPaneBuilder.rowConstraints(
+                rowConstraintsBuilder.valignment(VPos.TOP).percentHeight(28).fillHeight(true).vgrow(Priority.ALWAYS).build(),
+                rowConstraintsBuilder.percentHeight(72).build()
+        );
+
+        gridPaneBuilder.applyTo(rootStartPane);
     }
 
 
     public Parent getRoot() {
-        return rootSpielPane;
+        return rootStartPane;
     }
 }

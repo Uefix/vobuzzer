@@ -59,5 +59,6 @@ public class FrageBox extends TextBox {
     @Override
     public void setOnCircleClickedHandler(EventHandler<MouseEvent> eventHandler) {
         circleImage.setOnMouseClicked(eventHandler);
+        circleBorder.setOnMouseClicked(eventHandler);
     }
 }
