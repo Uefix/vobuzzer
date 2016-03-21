@@ -1,16 +1,14 @@
 package com.uefix.vobuzzer.gui;
 
-import com.uefix.vobuzzer.SpielController;
+import com.uefix.vobuzzer.controller.SpielController;
 import com.uefix.vobuzzer.model.Antwort;
 import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.Frage;
 import com.uefix.vobuzzer.model.SpielSession;
-import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.layout.ColumnConstraintsBuilder;
 import javafx.scene.layout.GridPane;

@@ -1,4 +1,4 @@
-package com.uefix.vobuzzer;
+package com.uefix.vobuzzer.service;
 
 import com.uefix.vobuzzer.excel.FragenKatalogExcelLoader;
 import com.uefix.vobuzzer.excel.exception.FragenKatalogLoaderException;
@@ -17,9 +17,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Uefix on 23.02.2016.
@@ -39,20 +37,28 @@ public class FragenService {
 
     private FragenKatalog fragenKatalog;
 
+    private File excelFile;
 
-    public void loadFragenKatalog(String pfadZuExcel) {
-        LOG.info("Lade Fragenkatalog-Excel '" + pfadZuExcel + "'...");
+
+    public void configure(String pfadZuExcel) {
         File file = new File(pfadZuExcel);
         if (!file.exists()) {
             throw new IllegalArgumentException("Datei '" + file.getAbsolutePath() + "' existiert nicht.");
         }
+        this.excelFile = file;
+    }
+
+
+
+    public void loadFragenKatalog(Collection<FragenKategorie> fragenKategorien) {
+        LOG.info("Lade Fragenkatalog-Excel '" + excelFile.getAbsolutePath() + "'...");
 
         InputStream is = null;
         try {
-            is = new BufferedInputStream(new FileInputStream(file));
-            this.fragenKatalog = excelLoader.loadFragen(is, FragenKategorie.values());
+            is = new BufferedInputStream(new FileInputStream(excelFile));
+            this.fragenKatalog = excelLoader.loadFragen(is, fragenKategorien);
         } catch (IOException ioe) {
-            throw new IllegalStateException("Fehler beim Lesen der Datei '" + file.getAbsolutePath() + "'.", ioe);
+            throw new IllegalStateException("Fehler beim Lesen der Datei '" + excelFile.getAbsolutePath() + "'.", ioe);
         } finally {
             IOUtils.closeQuietly(is);
         }

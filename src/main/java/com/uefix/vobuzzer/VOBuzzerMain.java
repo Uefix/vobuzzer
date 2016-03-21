@@ -1,6 +1,7 @@
 package com.uefix.vobuzzer;
 
 import com.uefix.vobuzzer.gui.VOBuzzerGui;
+import com.uefix.vobuzzer.service.FragenService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.commons.io.IOUtils;
@@ -44,7 +45,7 @@ public class VOBuzzerMain extends Application {
         if (args.length > 1 && args[0].equals("-checkexcel")) {
             fragenService.checkExcel(args[1]);
         } else if (args.length == 1) {
-            fragenService.loadFragenKatalog(args[0]);
+            fragenService.configure(args[0]);
             Application.launch(args);
         } else {
             LOG.error("Unerwartete Anzahl an Parametern.");

@@ -1,6 +1,6 @@
 package com.uefix.vobuzzer.gui;
 
-import com.uefix.vobuzzer.SpielController;
+import com.uefix.vobuzzer.controller.SpielController;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
 import com.uefix.vobuzzer.model.observable.SpielStatistik;
 import javafx.beans.binding.Bindings;

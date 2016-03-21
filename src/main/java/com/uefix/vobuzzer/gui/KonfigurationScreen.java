@@ -1,5 +1,6 @@
 package com.uefix.vobuzzer.gui;
 
+import com.uefix.vobuzzer.controller.SpielController;
 import com.uefix.vobuzzer.model.FragenKategorie;
 import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.SpielStatistik;
@@ -37,15 +38,13 @@ public class KonfigurationScreen {
 
 
     @Inject
-    private ApplicationStateModel applicationStateModel;
-
-    @Inject
-    private SpielStatistik spielStatistik;
+    private SpielController spielController;
 
     private Scene scene;
 
     private Button startButton;
 
+    private TextField anzahlSpieleTextField;
 
 
     public void initializeNodes() {
@@ -67,13 +66,19 @@ public class KonfigurationScreen {
         gsComboBox.getItems().addAll(gsKategorien);
         gsComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             LOG.debug("Eintrag selektiert: " + newValue);
-            startButton.setDisable(newValue == null);
+            try {
+                Integer.parseInt(anzahlSpieleTextField.getText());
+                startButton.setDisable(gsComboBox.getSelectionModel().getSelectedItem() == null);
+            } catch (Exception e) {
+                startButton.setDisable(true);
+            }
+
         });
 
         Label anzahlSpieleLabel = new Label("Anzahl Spiele");
         anzahlSpieleLabel.setPrefWidth(100);
         anzahlSpieleLabel.setTextAlignment(TextAlignment.LEFT);
-        TextField anzahlSpieleTextField = new TextField();
+        anzahlSpieleTextField = new TextField();
         anzahlSpieleTextField.setText("0");
         anzahlSpieleTextField.setOnKeyTyped(event -> {
             try {
@@ -88,8 +93,8 @@ public class KonfigurationScreen {
         startButton.setDisable(true);
         startButton.setOnAction(event -> {
             int anzahlSpiele = Integer.parseInt(anzahlSpieleTextField.getText());
-            spielStatistik.fireAnzahlSpieleChanged(anzahlSpiele);
-            applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
+            FragenKategorie fragenKategorie = gsComboBox.getSelectionModel().getSelectedItem();
+            spielController.starte(anzahlSpiele, fragenKategorie);
         });
 
         gridPane.add(iconLabel, 0, 0, 2, 1);

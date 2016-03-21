@@ -1,14 +1,14 @@
-package com.uefix.vobuzzer;
+package com.uefix.vobuzzer.controller;
 
 import com.uefix.vobuzzer.gui.SpielScreen;
-import com.uefix.vobuzzer.model.AntwortSlot;
-import com.uefix.vobuzzer.model.Frage;
-import com.uefix.vobuzzer.model.SpielSession;
+import com.uefix.vobuzzer.model.*;
 import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.SpielStatistik;
+import com.uefix.vobuzzer.service.FragenService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Arrays;
 
 /**
  * Created by Uefix on 17.03.2016.
@@ -32,6 +32,14 @@ public class SpielController {
 
     @Inject
     private SpielSession spielSession;
+
+
+    public void starte(int anzahlSpiele, FragenKategorie fragenKategorie) {
+        fragenService.loadFragenKatalog(Arrays.asList(FragenKategorie.ALLGEMEIN, fragenKategorie));
+
+        spielStatistik.fireAnzahlSpieleChanged(anzahlSpiele);
+        applicationStateModel.fireNewState(ApplicationStateModel.State.SPENDENUHR);
+    }
 
 
     public void neuesSpiel() {

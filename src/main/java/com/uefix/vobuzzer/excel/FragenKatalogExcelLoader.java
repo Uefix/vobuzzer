@@ -18,6 +18,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -33,6 +35,11 @@ public class FragenKatalogExcelLoader {
     private DataFormatter formatter = new DataFormatter(Locale.GERMANY);
 
     public FragenKatalog loadFragen(InputStream inputStream, FragenKategorie... fragenKategorien) throws IOException {
+        Collection<FragenKategorie> fragenKategorieCollection = Arrays.asList(fragenKategorien);
+        return loadFragen(inputStream, fragenKategorieCollection);
+    }
+
+    public FragenKatalog loadFragen(InputStream inputStream, Collection<FragenKategorie> fragenKategorien) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 
 
