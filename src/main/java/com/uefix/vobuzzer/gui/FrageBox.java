@@ -1,8 +1,11 @@
 package com.uefix.vobuzzer.gui;
 
+import com.uefix.vobuzzer.model.SpielSession;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -19,9 +22,8 @@ public class FrageBox extends TextBox {
 
     protected ImageView circleImage;
 
-
-    public FrageBox() {
-        super("frage", 55);
+    public FrageBox(SpielSession spielSession) {
+        super(spielSession, "frage", 55);
     }
 
 
@@ -35,8 +37,31 @@ public class FrageBox extends TextBox {
         circleImage.setId("frage-box-logo");
         circleImage.setPreserveRatio(true);
         circleImage.setSmooth(true);
+
         rootPane.getChildren().add(circleImage);
         StackPane.setAlignment(circleImage, Pos.TOP_CENTER);
+
+        circleBorder.setOnMouseEntered(event -> {
+            circleBorder.getScene().setCursor(imageCursor);
+        });
+
+        circleBorder.setOnMouseExited(event -> {
+            Scene scene = circleBorder.getScene();
+            if (scene != null) {
+                scene.setCursor(Cursor.DEFAULT);
+            }
+        });
+
+        circleImage.setOnMouseEntered(event -> {
+            circleImage.getScene().setCursor(imageCursor);
+        });
+
+        circleImage.setOnMouseExited(event -> {
+            Scene scene = circleImage.getScene();
+            if (scene != null) {
+                scene.setCursor(Cursor.DEFAULT);
+            }
+        });
     }
 
 

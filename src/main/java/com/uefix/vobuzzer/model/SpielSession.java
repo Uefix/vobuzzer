@@ -42,11 +42,6 @@ public class SpielSession {
         return anzahlGestellterFragen;
     }
 
-    public void setAnzahlGestellterFragen(int anzahlGestellterFragen) {
-        this.anzahlGestellterFragen = anzahlGestellterFragen;
-    }
-
-
     public boolean isSelektionMoeglich() {
         return selektionMoeglich;
     }

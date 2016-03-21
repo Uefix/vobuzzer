@@ -4,11 +4,14 @@ import com.uefix.vobuzzer.model.observable.ApplicationStateModel;
 import com.uefix.vobuzzer.model.observable.ModelListener;
 import com.uefix.vobuzzer.model.observable.ObservableModel;
 import com.uefix.vobuzzer.model.observable.RootEmModel;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -61,10 +64,12 @@ public class VOBuzzerGui implements ModelListener<ApplicationStateModel.Event> {
                     stage.setFullScreen(true);
                 }
                 gameScene.setRoot(spendenUhrScreen.getRoot());
+                gameScene.setCursor(Cursor.DEFAULT);
                 break;
 
             case SPIEL:
                 gameScene.setRoot(spielScreen.getRoot());
+                gameScene.setCursor(Cursor.DEFAULT);
                 break;
         }
     }
@@ -86,6 +91,7 @@ public class VOBuzzerGui implements ModelListener<ApplicationStateModel.Event> {
         this.stage = primaryStage;
 
         primaryStage.setTitle("VOBuzzer");
+        primaryStage.getIcons().add(new Image(new ClassPathResource("images/logo_vobuzzer.png").getInputStream()));
         primaryStage.setScene(konfigurationScreen.getScene());
         primaryStage.setOnCloseRequest(windowEvent -> {
             LOG.info("Ciao :D");

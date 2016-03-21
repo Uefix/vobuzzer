@@ -1,9 +1,12 @@
 package com.uefix.vobuzzer.gui;
 
 import com.uefix.vobuzzer.model.AntwortSlot;
+import com.uefix.vobuzzer.model.SpielSession;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -19,12 +22,14 @@ public class AntwortBox extends TextBox {
     private static final double CIRCLE_BORDER_RADIUS_EM = 2.25d;
     private static final double LABEL_HEIGHT_EM = 3.7d;
 
+
+
     private final AntwortSlot antwortSlot;
 
     private Label circleLabel;
 
-    public AntwortBox(AntwortSlot antwortSlot) {
-        super("antwort", 30);
+    public AntwortBox(SpielSession spielSession, AntwortSlot antwortSlot) {
+        super(spielSession, "antwort", 30);
         this.antwortSlot = antwortSlot;
     }
 
@@ -43,6 +48,30 @@ public class AntwortBox extends TextBox {
         StackPane.setAlignment(circleLabel, Pos.TOP_CENTER);
 
         textLabel.getStyleClass().add("antwort-text");
+
+
+        circleBorder.setOnMouseEntered(event -> {
+            if (spielSession.isSelektionMoeglich()) {
+                circleBorder.getScene().setCursor(imageCursor);
+            }
+        });
+
+        circleBorder.setOnMouseExited(event -> {
+            Scene scene = circleBorder.getScene();
+            if (scene != null) {
+                scene.setCursor(Cursor.DEFAULT);
+            }
+        });
+
+        circleLabel.setOnMouseEntered(event -> {
+            if (spielSession.isSelektionMoeglich()) {
+                circleLabel.getScene().setCursor(imageCursor);
+            }
+        });
+
+        circleLabel.setOnMouseExited(event -> {
+            circleLabel.getScene().setCursor(Cursor.DEFAULT);
+        });
     }
 
 
@@ -90,6 +119,5 @@ public class AntwortBox extends TextBox {
     public void setOnCircleClickedHandler(EventHandler<MouseEvent> eventHandler) {
         circleLabel.setOnMouseClicked(eventHandler);
         circleBorder.setOnMouseClicked(eventHandler);
-        yBorderPane.setOnMouseClicked(eventHandler);
     }
 }

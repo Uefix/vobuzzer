@@ -10,6 +10,7 @@ import com.uefix.vobuzzer.model.observable.RootEmModel;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.layout.ColumnConstraintsBuilder;
 import javafx.scene.layout.GridPane;
@@ -40,7 +41,11 @@ public class SpielScreen {
     @Inject
     private RootEmModel rootEmModel;
 
+    @Inject
+    private SpielSession spielSession;
+
     private FrageBox frageBox;
+
     private Map<AntwortSlot, AntwortBox> antwortBoxen;
 
     private StackPane rootSpielPane;
@@ -83,20 +88,18 @@ public class SpielScreen {
         antwortBoxen.get(antwortSlot).renderRichtigeAntwort();
     }
 
-
-
     public void initializeNodes() {
-        frageBox = new FrageBox();
+        frageBox = new FrageBox(spielSession);
         frageBox.initializeNodes();
         frageBox.setOnCircleClickedHandler(event -> {
             spielController.neueFrage();
         });
 
         antwortBoxen = new HashMap<>(4);
-        antwortBoxen.put(AntwortSlot.A, new AntwortBox(AntwortSlot.A));
-        antwortBoxen.put(AntwortSlot.B, new AntwortBox(AntwortSlot.B));
-        antwortBoxen.put(AntwortSlot.C, new AntwortBox(AntwortSlot.C));
-        antwortBoxen.put(AntwortSlot.D, new AntwortBox(AntwortSlot.D));
+        antwortBoxen.put(AntwortSlot.A, new AntwortBox(spielSession, AntwortSlot.A));
+        antwortBoxen.put(AntwortSlot.B, new AntwortBox(spielSession, AntwortSlot.B));
+        antwortBoxen.put(AntwortSlot.C, new AntwortBox(spielSession, AntwortSlot.C));
+        antwortBoxen.put(AntwortSlot.D, new AntwortBox(spielSession, AntwortSlot.D));
         antwortBoxen.forEach((antwortSlot, antwortBox) -> {
             antwortBox.initializeNodes();
             antwortBox.setOnCircleClickedHandler(event -> {

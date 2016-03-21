@@ -6,8 +6,12 @@ import com.uefix.vobuzzer.model.observable.SpielStatistik;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraintsBuilder;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.GridPaneBuilder;
@@ -15,10 +19,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraintsBuilder;
 import org.apache.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 
 /**
  * Created by Uefix on 13.03.2016.
@@ -42,6 +48,8 @@ public class SpendenUhrScreen {
 
     private GridPane rootStartPane;
 
+    private ImageCursor imageCursor;
+
 
     @PostConstruct
     public void initialize() {
@@ -56,12 +64,30 @@ public class SpendenUhrScreen {
 
 
     public void initializeNodes() {
+        try {
+            Image image = new Image(new ClassPathResource("images/cursor.png").getInputStream());
+            imageCursor = new ImageCursor(image);
+        } catch (IOException ioe) {
+            throw new RuntimeException("Failed to load cursor", ioe);
+        }
+
         anzahlSpieleLabel = new Label();
         anzahlSpieleLabel.setId("startpane-anzahlspiele");
         anzahlSpieleLabel.setText("keine");
-        anzahlSpieleLabel.setOnMouseClicked(event ->
-                        spielController.neuesSpiel()
-        );
+        anzahlSpieleLabel.setOnMouseClicked(event -> {
+            spielController.neuesSpiel();
+        });
+
+        anzahlSpieleLabel.setOnMouseEntered(event -> {
+            anzahlSpieleLabel.getScene().setCursor(imageCursor);
+        });
+
+        anzahlSpieleLabel.setOnMouseExited(event -> {
+            Scene scene = anzahlSpieleLabel.getScene();
+            if (scene != null) {
+                scene.setCursor(Cursor.DEFAULT);
+            }
+        });
 
         rootStartPane = new GridPane();
         rootStartPane.setId("root-startpane");
