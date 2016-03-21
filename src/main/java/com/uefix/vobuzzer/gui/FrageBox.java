@@ -66,6 +66,17 @@ public class FrageBox extends TextBox {
 
 
     @Override
+    public void setText(String text) {
+        if (isCharCountFontSizeThresholdExceeded(text)) {
+            adjustToSmallFontSize();
+        } else {
+            adjustToBigFontSize();
+        }
+        super.setText(text);
+    }
+
+
+    @Override
     public void onSceneHeightChanged(double rootEmValue) {
         double radius = CIRCLE_RADIUS_EM * rootEmValue;
         circle.setRadius(radius);

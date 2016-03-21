@@ -62,8 +62,23 @@ public class SpielScreen {
     public void setFrage(Frage frage) {
         frageBox.setText(frage.getText());
 
+        boolean isCharCountFontSizeThresholdExceeded = false;
+        for (Antwort antwort : frage.getAntworten().values()) {
+            if (antwortBoxen.get(antwort.getSlot()).isCharCountFontSizeThresholdExceeded(antwort.getText())) {
+                isCharCountFontSizeThresholdExceeded = true;
+                break;
+            }
+        }
+
+        final boolean smallFontSize = isCharCountFontSizeThresholdExceeded;
         antwortBoxen.forEach(((antwortSlot, antwortBox) -> {
             antwortBox.reset();
+
+            if (smallFontSize) {
+                antwortBox.adjustToSmallFontSize();
+            } else {
+                antwortBox.adjustToBigFontSize();
+            }
 
             Antwort antwort = frage.getAntworten().get(antwortSlot);
             antwortBox.setText(antwort.getText());

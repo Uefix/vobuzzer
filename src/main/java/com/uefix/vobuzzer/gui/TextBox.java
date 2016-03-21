@@ -4,9 +4,7 @@ import com.uefix.vobuzzer.model.SpielSession;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -16,7 +14,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 import org.springframework.core.io.ClassPathResource;
 
-import javax.inject.Inject;
 import java.io.IOException;
 
 /**
@@ -36,14 +33,14 @@ public abstract class TextBox {
     protected ImageCursor imageCursor;
 
     protected final String styleClassPrefix;
-    protected final int wordCountFontSizeThreshold;
+    protected final int charCountFontSizeThreshold;
 
     protected final SpielSession spielSession;
 
-    public TextBox(SpielSession spielSession, String styleClassPrefix, int wordCharacterCountFontSizeThreshold) {
+    public TextBox(SpielSession spielSession, String styleClassPrefix, int charCountFontSizeThreshold) {
         this.spielSession = spielSession;
         this.styleClassPrefix = styleClassPrefix;
-        this.wordCountFontSizeThreshold = wordCharacterCountFontSizeThreshold;
+        this.charCountFontSizeThreshold = charCountFontSizeThreshold;
     }
 
     public void initializeNodes() {
@@ -89,16 +86,27 @@ public abstract class TextBox {
 
 
     public void setText(String text) {
-        ObservableList<String> styleClass = textLabel.getStyleClass();
-        if (text.length() > wordCountFontSizeThreshold) {
-            styleClass.remove(styleClassPrefix + "-text-gross");
-            styleClass.add(styleClassPrefix + "-text-klein");
-        } else {
-            styleClass.remove(styleClassPrefix + "-text-klein");
-            styleClass.add(styleClassPrefix + "-text-gross");
-        }
         textLabel.setText(text);
     }
+
+
+    public boolean isCharCountFontSizeThresholdExceeded(String text) {
+        return text.length() > charCountFontSizeThreshold;
+    }
+
+
+    public void adjustToSmallFontSize() {
+        ObservableList<String> styleClass = textLabel.getStyleClass();
+        styleClass.remove(styleClassPrefix + "-text-gross");
+        styleClass.add(styleClassPrefix + "-text-klein");
+    }
+
+    public void adjustToBigFontSize() {
+        ObservableList<String> styleClass = textLabel.getStyleClass();
+        styleClass.remove(styleClassPrefix + "-text-klein");
+        styleClass.add(styleClassPrefix + "-text-gross");
+    }
+
 
 
     public Pane getRootPane() {

@@ -2,6 +2,7 @@ package com.uefix.vobuzzer.gui;
 
 import com.uefix.vobuzzer.model.AntwortSlot;
 import com.uefix.vobuzzer.model.SpielSession;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -96,6 +97,9 @@ public class AntwortBox extends TextBox {
         circle.getStyleClass().remove("antwort-richtig-content");
         contentPane.getStyleClass().remove("antwort-richtig-content");
     }
+
+
+
 
 
 
