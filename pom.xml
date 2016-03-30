@@ -4,7 +4,7 @@
 
     <groupId>com.uefix.vobuzzer</groupId>
     <artifactId>vobuzzer-main</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>vobuzzer</name>
 
@@ -94,13 +94,6 @@
             <version>2.4</version>
         </dependency>
 
-        <!--
-                <dependency>
-                    <groupId>org.apache.poi</groupId>
-                    <artifactId>poi</artifactId>
-                    <version>3.13</version>
-                </dependency>
-         -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
